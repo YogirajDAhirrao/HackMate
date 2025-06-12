@@ -1,0 +1,120 @@
+/* src/pages/UserProfile.css */
+.user-profile-page {
+  background-color: #0c1220; /* Dark navy background */
+  color: #ffffff; /* White text */
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-profile-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  border-bottom: 1px solid #2e2e2e;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.profile-details {
+  background-color: #151c2c; /* Slightly lighter for contrast */
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+  margin-bottom: 2rem;
+  width: 100%;
+  max-width: 600px; /* Constrain width for better readability */
+}
+
+.profile-details p {
+  margin: 0.75rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.profile-details strong {
+  color: #9cc9ff; /* Light blue accent */
+}
+
+a {
+  color: #4da6ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.success-message {
+  color: #28a745; /* Green for success */
+  font-weight: bold;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Space between buttons */
+  width: 100%;
+  max-width: 600px; /* Match profile-details width */
+}
+
+.back-button,
+.request-button {
+  background-color: #4da6ff; /* Blue to match theme */
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover,
+.request-button:hover:not(:disabled) {
+  background-color: #2f7fdb; /* Darker blue on hover */
+}
+
+.request-button:disabled {
+  background-color: #2e2e2e; /* Dark grey when disabled */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .user-profile-page {
+    padding: 1rem;
+  }
+
+  .user-profile-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .profile-details {
+    padding: 1rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .back-button,
+  .request-button {
+    width: 100%;
+    padding: 0.8rem;
+  }
+}

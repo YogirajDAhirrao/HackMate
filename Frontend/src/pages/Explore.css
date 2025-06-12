@@ -1,0 +1,112 @@
+.explore-page {
+  padding: 20px;
+  background-color: #1a1a2e;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.explore-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.form-group input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2a2a3c;
+  color: #fff;
+  width: 250px; /* Adjusted to match screenshot */
+  font-size: 14px;
+}
+
+.form-group input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.search-button {
+  padding: 10px 20px;
+  background-color: #6b48ff; /* Matches the button color in the screenshot */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+}
+
+.search-button:hover {
+  background-color: #5638cc;
+}
+
+.error-message {
+  color: #ff5555;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.users-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.user-card {
+  background-color: #2a2a3c;
+  padding: 15px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.user-card h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.user-card .bio {
+  font-style: italic;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+.user-card a {
+  color: #6b48ff;
+  text-decoration: none;
+}
+
+.user-card a:hover {
+  text-decoration: underline;
+}
+
+.user-card p {
+  margin: 5px 0;
+}
+
+.user-card strong {
+  color: #ddd;
+}

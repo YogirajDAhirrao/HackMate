@@ -1,0 +1,150 @@
+/* src/pages/Requests.css */
+.requests-page {
+  background-color: #0c1220;
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.requests-page h1 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: #ffffff;
+  border-bottom: 1px solid #2e2e2e;
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.card {
+  background-color: #151c2c;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.05);
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: #9cc9ff;
+}
+
+.request-name {
+  color: #4da6ff;
+  text-decoration: none;
+}
+
+.request-name:hover {
+  text-decoration: underline;
+}
+
+.request-details {
+  margin-bottom: 1rem;
+}
+
+.request-details p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.request-details strong {
+  color: #9cc9ff;
+}
+
+.request-details a {
+  color: #4da6ff;
+  text-decoration: none;
+}
+
+.request-details a:hover {
+  text-decoration: underline;
+}
+
+.request-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.accept-button,
+.decline-button,
+.back-button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.accept-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.accept-button:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.decline-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.decline-button:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.back-button {
+  background-color: #4da6ff;
+  color: white;
+  margin-top: 2rem;
+}
+
+.back-button:hover {
+  background-color: #2f7fdb;
+}
+
+.accept-button:disabled,
+.decline-button:disabled {
+  background-color: #2e2e2e;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .requests-page {
+    padding: 1rem;
+  }
+
+  .requests-page h1 {
+    font-size: 1.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .request-actions {
+    justify-content: center;
+  }
+}

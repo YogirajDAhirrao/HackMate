@@ -1,0 +1,112 @@
+.profile-page {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 2rem;
+  padding: 2rem;
+  background-color: #0d1117;
+  color: #f0f6fc;
+  font-family: "Segoe UI", sans-serif;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.profile-image img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #30363d;
+  background-color: #161b22;
+}
+
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  color: #8b949e;
+}
+
+.profile-form input,
+.profile-form textarea {
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  background-color: #161b22;
+  color: #f0f6fc;
+  font-size: 0.95rem;
+}
+
+.profile-form textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.profile-form input:disabled,
+.profile-form textarea:disabled {
+  background-color: #0d1117;
+  color: #8b949e;
+  cursor: not-allowed;
+}
+
+.profile-form button {
+  grid-column: span 2;
+  padding: 0.7rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.profile-form button[type="submit"] {
+  background-color: #238636;
+  color: white;
+}
+
+.profile-form button[type="button"] {
+  background-color: #30363d;
+  color: white;
+  margin-left: 1rem;
+}
+
+.profile-form button:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .profile-page {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    text-align: center;
+  }
+
+  .profile-form {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-form button {
+    grid-column: span 1;
+  }
+
+  .profile-image {
+    margin: 0 auto 1.5rem auto;
+  }
+}

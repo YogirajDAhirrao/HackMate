@@ -1,0 +1,14 @@
+.footer {
+    background-color: #0f172a; /* Dark navy */
+    color: #cbd5e1; /* Gray-300 */
+    padding: 1rem 2rem;
+    text-align: center;
+    margin-top: auto;
+  }
+  
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  

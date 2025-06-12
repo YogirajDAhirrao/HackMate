@@ -1,0 +1,167 @@
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+// Get logged-in user's profile
+export const getProfile = async () => {
+  const res = await fetch(`${BASE_URL}/profile/me`, {
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    throw new Error("Not authenticated");
+  }
+
+  return res.json(); // returns user object
+};
+
+// Sign up user
+export const signup = async (formData) => {
+  const res = await fetch(`${BASE_URL}/auth/signup`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(formData),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Signup failed");
+  }
+
+  return res.json(); // returns user object
+};
+
+// Log in user
+export const login = async (credentials) => {
+  const res = await fetch(`${BASE_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(credentials),
+  });
+
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Login failed");
+  }
+
+  return res.json(); // returns user object
+};
+
+export const getUsers = async (query) => {
+  const response = await fetch(`${BASE_URL}/users?${query.toString()}`, {
+    // Changed from /api/users to /users
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include", // Include credentials for JWT cookies
+  });
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(
+      `Failed to fetch users: ${response.status} ${response.statusText} - ${text}`
+    );
+  }
+  return response.json();
+};
+
+export const updateProfile = async (formData) => {
+  const response = await fetch(`${BASE_URL}/profile/update`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    body: JSON.stringify(formData),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "update failed");
+  }
+  return response.json();
+};
+
+export const getUserByID = async (slug) => {
+  const response = await fetch(`${BASE_URL}/users/${slug}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Failed to fetch user");
+  }
+  return response.json();
+};
+
+//request APIs
+export const sendrequest = async (targetid) => {
+  const response = await fetch(`${BASE_URL}/request/send/${targetid}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Failed to send request");
+  }
+  return response.json();
+};
+
+export const getRequests = async () => {
+  const response = await fetch(`${BASE_URL}/request/incoming`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    const errData = await response.json();
+    throw new Error(errData.message || "Failed to fetch requests");
+  }
+  return response.json();
+};
+
+export const acceptRequest = async (targetid) => {
+  const response = await fetch(`${BASE_URL}/request/accept/${targetid}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    const errData = await response.json();
+    throw new Error(errData.message || "Failed to accept request");
+  }
+  return response.json();
+};
+
+export const rejectRequests = async (targetid) => {
+  const response = await fetch(`${BASE_URL}/request/reject/${targetid}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    const errData = await response.json();
+    throw new Error(errData.message || "Failed to reject request");
+  }
+  return response.json();
+};
+
+export const cancelRequests = async (targetid) => {
+  const response = await fetch(`${BASE_URL}/request/cancel/${targetid}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    const errData = await response.json();
+    throw new Error(errData.message || "Failed to cancel request");
+  }
+  return response.json();
+};
+
+export const getIncomingRequests = async () => {
+  const response = await fetch(`${BASE_URL}/request/incoming`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    const errData = await response.json();
+    throw new Error(errData.message || "Failed to fetch requests");
+  }
+  return response.json();
+};
