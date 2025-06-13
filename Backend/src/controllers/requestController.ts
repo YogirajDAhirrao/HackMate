@@ -199,7 +199,7 @@ export const viewIncoming = async (
     }
     const user = await User.findById(userId).populate(
       "requests",
-      "name email github skills"
+      "name email github skills slug"
     );
     if (!user) {
       res.status(404).json({ message: "User not found" });

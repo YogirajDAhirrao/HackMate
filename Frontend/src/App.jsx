@@ -9,6 +9,7 @@ import Explore from "./pages/Explore";
 import MyProfile from "./pages/MyProfile";
 import UserProfile from "./pages/UserProfile";
 import SearchContextWrapper from "./context/SearchContextWrapper";
+import Requests from "./pages/Requests";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile/:slug" element={<UserProfile />} />
           </Route>
+          <Route path="/requests" element={<Requests />} />
         </Route>
       </Routes>
     </BrowserRouter>
