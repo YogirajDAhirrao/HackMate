@@ -2,6 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from "express";
 import User from "../model/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import slugify from "slugify";
 import { JWT_SECRET } from "../config/config.js";
 
 export const signup: RequestHandler = async (
@@ -10,6 +11,7 @@ export const signup: RequestHandler = async (
   next: NextFunction
 ): Promise<void> => {
   const { name, email, password, interests, skills, bio, github } = req.body;
+  const slug = slugify(name, { lower: true, strict: true });
 
   try {
     const existingUser = await User.findOne({ email });
@@ -27,6 +29,7 @@ export const signup: RequestHandler = async (
       skills,
       bio,
       github,
+      slug
     });
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {

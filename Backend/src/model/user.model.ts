@@ -54,18 +54,22 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Custom hook to generate slug when name is created or updated
 userSchema.pre("save", async function (next) {
-  if (this.isModified("name")) {
+  if (this.isNew || this.isModified("name")) {
+    // Generate base slug from name
     let baseSlug = slugify(this.name, { lower: true, strict: true });
     let slug = baseSlug;
     let count = 1;
 
-    // to handle conflicts in case this same named users
+    // Ensure slug uniqueness
     const User = mongoose.model("User");
     while (await User.findOne({ slug, _id: { $ne: this._id } })) {
       slug = `${baseSlug}-${count}`;
       count++;
     }
+
+    // Override any provided slug
     this.slug = slug;
   }
   next();

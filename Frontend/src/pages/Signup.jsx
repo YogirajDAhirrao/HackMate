@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 
 function Signup() {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,7 +16,7 @@ function Signup() {
     skills: "",
     interests: "",
   });
-  const { setUser } = useAuth();
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,75 +24,45 @@ function Signup() {
       ...prev,
       [name]: value,
     }));
+    setError(""); // Clear error on input change
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(""); // Reset error before submission
 
-    // Prepare data: convert skills & interests to arrays
+    // Prepare data: convert skills & interests to arrays, filter out empty values
     const payload = {
       ...formData,
-      skills: formData.skills.split(",").map((s) => s.trim()),
-      interests: formData.interests.split(",").map((i) => i.trim()),
+      skills: formData.skills
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s !== ""),
+      interests: formData.interests
+        .split(",")
+        .map((i) => i.trim())
+        .filter((i) => i !== ""),
     };
 
     try {
-      const user = await signup(payload); // signup API returns user object
+      const user = await signup(payload);
       console.log("Signed up as:", user);
       setUser(user);
-      navigate("/"); // redirect
+      navigate("/");
     } catch (error) {
-      console.error(error);
-      alert(error.message || "Signup failed");
+      setError(error.message || "Signup failed. Please try again.");
     }
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Prepare data: convert skills & interests to arrays
-  //   const payload = {
-  //     ...formData,
-  //     skills: formData.skills.split(",").map((s) => s.trim()),
-  //     interests: formData.interests.split(",").map((i) => i.trim()),
-  //   };
-
-  //   try {
-  //     const user = await
-
-  //   } catch (error) {
-
-  //   }
-
-  //   // try {
-  //   //   // const res = await fetch("http://localhost:5000/auth/signup", {
-  //   //   //   method: "POST",
-  //   //   //   credentials: "include",
-  //   //   //   headers: {
-  //   //   //     "Content-Type": "application/json",
-  //   //   //   },
-  //   //   //   body: JSON.stringify(payload),
-  //   //   // });
-  //   //   const res = await signup(payload);
-
-  //   //   if (res.ok) {
-  //   //     navigate("/login");
-  //   //   } else {
-  //   //     const err = await res.json();
-  //   //     alert(err.message || "Signup failed");
-  //   //   }
-  //   // } catch (err) {
-  //   //   console.error(err);
-  //   //   alert("Something went wrong.");
-  //   // }
-  // };
 
   return (
     <div className="signup-page">
       <form className="signup-form" onSubmit={handleSubmit}>
         <h2>Create Account</h2>
+        {error && <p className="error-message">{error}</p>}
         <input
           name="name"
           placeholder="Name"
+          value={formData.name}
           onChange={handleChange}
           required
         />
@@ -99,6 +70,7 @@ function Signup() {
           name="email"
           placeholder="Email"
           type="email"
+          value={formData.email}
           onChange={handleChange}
           required
         />
@@ -106,25 +78,37 @@ function Signup() {
           name="password"
           placeholder="Password"
           type="password"
+          value={formData.password}
           onChange={handleChange}
           required
         />
-        <textarea name="bio" placeholder="Short Bio" onChange={handleChange} />
-        <input name="github" placeholder="GitHub URL" onChange={handleChange} />
+        <textarea
+          name="bio"
+          placeholder="Short Bio"
+          value={formData.bio}
+          onChange={handleChange}
+        />
+        <input
+          name="github"
+          placeholder="GitHub URL"
+          value={formData.github}
+          onChange={handleChange}
+        />
         <input
           name="skills"
           placeholder="Skills (comma-separated)"
+          value={formData.skills}
           onChange={handleChange}
         />
         <input
           name="interests"
           placeholder="Interests (comma-separated)"
+          value={formData.interests}
           onChange={handleChange}
         />
-
         <button type="submit">Sign Up</button>
         <p>
-          Already have an account?<Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </form>
     </div>

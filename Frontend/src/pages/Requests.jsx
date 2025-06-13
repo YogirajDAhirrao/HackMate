@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
-import { getIncomingRequests } from "../api/user";
+import {
+  acceptRequest,
+  getIncomingRequests,
+  rejectRequests,
+} from "../api/user";
 import "./Requests.css";
 import { useNavigate } from "react-router-dom";
 
 function Requests() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [acceptingId, setAcceptingId] = useState(null); // Track which request is being accepted
+  const [rejectingId, setRejectingId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,16 +22,42 @@ function Requests() {
       } catch (error) {
         console.error("Error fetching requests:", error);
       } finally {
-        setLoading(false); // Hide loading after fetch (success or fail)
+        setLoading(false);
       }
     };
 
     fetchRequests();
   }, []);
 
-  const handleAccept = (requestId) => {
-    console.log("Accepted request:", requestId);
-    // TODO: Add accept request logic (API call + UI update)
+  const handleAccept = async (requestId) => {
+    setAcceptingId(requestId);
+    try {
+      const res = await acceptRequest(requestId);
+      console.log(res.message);
+      alert(res.message);
+
+      // Remove accepted request from the list
+      setRequests((prev) => prev.filter((r) => r._id !== requestId));
+    } catch (err) {
+      console.error("Accept failed:", err.message);
+      alert(err.message);
+    } finally {
+      setAcceptingId(null);
+    }
+  };
+  const handleReject = async (requestId) => {
+    setRejectingId(requestId);
+    try {
+      const res = await rejectRequests(requestId);
+      console.log(res.message);
+      alert(res.message);
+      setRequests((prev) => prev.filter((r) => r._id !== requestId));
+    } catch (err) {
+      console.error("Accept failed:", err.message);
+      alert(err.message);
+    } finally {
+      setAcceptingId(null);
+    }
   };
 
   const handleClick = (slug) => {
@@ -63,8 +95,19 @@ function Requests() {
                     e.stopPropagation(); // prevent card click from navigating
                     handleAccept(req._id);
                   }}
+                  disabled={acceptingId === req._id}
                 >
-                  Accept
+                  {acceptingId === req._id ? "Accepting..." : "Accept"}
+                </button>
+                <button
+                  className="reject-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleReject(req._id);
+                  }}
+                  disabled={rejectingId === req._id}
+                >
+                  {rejectingId === req._id ? "Rejecting..." : "Reject"}
                 </button>
               </div>
             ))
