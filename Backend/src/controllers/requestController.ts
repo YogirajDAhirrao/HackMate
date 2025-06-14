@@ -85,10 +85,10 @@ export const acceptRequest = async (
 
     // Step 2: Create a new team with both users
     const newTeam = new Team({
-      name: `${user.name}'s Team`,
+      name: `${requester.name}'s Team`,
       description: `Team formed by ${user.name} and ${requester.name}`,
       members: [user._id, requester._id],
-      admin: user._id,
+      admin: requester._id,
     });
 
     await newTeam.save();

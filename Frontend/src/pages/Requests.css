@@ -44,6 +44,20 @@
   background-color: #888;
   cursor: not-allowed;
 }
+.reject-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.reject-button[disabled] {
+  background-color: #888;
+  cursor: not-allowed;
+}
 
 .loading-text {
   font-style: italic;

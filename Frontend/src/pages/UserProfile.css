@@ -4,7 +4,7 @@
   color: #ffffff; /* White text */
   min-height: 100vh;
   padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,6 +92,16 @@ a:hover {
   cursor: not-allowed;
   opacity: 0.6;
 }
+.already {
+  background-color: #4da6ff; /* Blue to match theme */
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+} 
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

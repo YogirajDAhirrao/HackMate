@@ -141,22 +141,28 @@ function UserProfile() {
           Back to Explore
         </button>
         {!isOwnProfile && (
-          <button
-            onClick={handleRequestSent}
-            className="request-button"
-            disabled={
-              sendingRequest ||
-              requestStatus === "Request already sent" ||
-              requestStatus === "Request sent successfully"
-            }
-          >
-            {sendingRequest
-              ? "Sending..."
-              : requestStatus === "Request already sent" ||
-                requestStatus === "Request sent successfully"
-              ? "Request Sent"
-              : "Send Request"}
-          </button>
+          <>
+            {user.team ? (
+              <p className="info-message">User is already in a team</p>
+            ) : (
+              <button
+                onClick={handleRequestSent}
+                className="request-button"
+                disabled={
+                  sendingRequest ||
+                  requestStatus === "Request already sent" ||
+                  requestStatus === "Request sent successfully"
+                }
+              >
+                {sendingRequest
+                  ? "Sending..."
+                  : requestStatus === "Request already sent" ||
+                    requestStatus === "Request sent successfully"
+                  ? "Request Sent"
+                  : "Send Request"}
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>
