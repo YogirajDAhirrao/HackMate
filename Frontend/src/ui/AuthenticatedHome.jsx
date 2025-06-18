@@ -2,10 +2,9 @@ import Card from "./Card";
 import HackathonList from "./HackathonList";
 import RequestsPreview from "./RequestsPreview";
 import "./AuthenticatedHome.css";
-import CreateTeamCTA from "./CreateTeamCTA";
 
 import { Link } from "react-router-dom";
-import TeamInfo from "../pages/TeamInfo";
+
 
 function AuthenticatedHome({ user }) {
   return (
@@ -16,7 +15,7 @@ function AuthenticatedHome({ user }) {
           {user.team ? (
             <Link to="/my-team">View My Team</Link>
           ) : (
-            <CreateTeamCTA />
+            <>You Have Not Joined any team</>
           )}
         </Card>
         <Card title="Find Teammates">

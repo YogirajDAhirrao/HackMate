@@ -32,3 +32,20 @@ export const leaveTeam = async () => {
 
   return await response.json();
 };
+
+export const removeMember = async (memberId) => {
+  const response = await fetch(`${BASE_URL}/team/remove-member/${memberId}`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to remove member");
+  }
+
+  return await response.json();
+};

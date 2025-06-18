@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { getMyTeam, leaveTeam } from "../api/team";
+import { getMyTeam, leaveTeam, removeMember } from "../api/team";
 import "./TeamInfo.css";
 import { useNavigate } from "react-router-dom";
 
@@ -11,6 +11,8 @@ function TeamInfo() {
   const [error, setError] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate();
+
+  const isAdmin = team?.admin?._id === user?._id;
 
   useEffect(() => {
     async function fetchTeam() {
@@ -65,6 +67,19 @@ function TeamInfo() {
       navigate(`/profile/${slug}`);
     }
   };
+  const handleRemoveMember = async (memberId) => {
+    if (!window.confirm("Are you sure you want to remove this member?")) return;
+    try {
+      await removeMember(memberId);
+      setTeam((prev) => ({
+        ...prev,
+        members: prev.members.filter((m) => m._id !== memberId),
+      }));
+    } catch (err) {
+      console.error(err);
+      setError("Failed to remove member. Please try again.");
+    }
+  };
 
   if (loading) {
     return (
@@ -114,6 +129,15 @@ function TeamInfo() {
                 <span className="badge" aria-label="Admin role">
                   Admin
                 </span>
+              )}
+              {isAdmin && member._id !== team.admin._id && (
+                <button
+                  className="remove-btn"
+                  onClick={() => handleRemoveMember(member._id)}
+                  aria-label={`Remove ${member.name}`}
+                >
+                  Remove
+                </button>
               )}
             </li>
           ))}

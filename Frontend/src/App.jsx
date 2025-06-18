@@ -26,7 +26,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile/:slug" element={<UserProfile />} />
           </Route>
-          <Route path="/my-team" element={<TeamInfo/>}></Route>
+          <Route path="/my-team" element={<TeamInfo />} />
           <Route path="/requests" element={<Requests />} />
         </Route>
       </Routes>
