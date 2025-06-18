@@ -69,8 +69,8 @@ export const getMyTeams = async (
       return;
     }
     const team = await Team.findById(foundUser.team)
-      .populate("members", "name email github")
-      .populate("admin", "name email");
+      .populate("members", "name email github slug")
+      .populate("admin", "name email slug");
     res.status(200).json({ team });
   } catch (error) {
     console.error("Error fetching user's team:", error);

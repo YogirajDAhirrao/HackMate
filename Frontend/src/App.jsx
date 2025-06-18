@@ -10,6 +10,7 @@ import MyProfile from "./pages/MyProfile";
 import UserProfile from "./pages/UserProfile";
 import SearchContextWrapper from "./context/SearchContextWrapper";
 import Requests from "./pages/Requests";
+import TeamInfo from "./pages/TeamInfo";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile/:slug" element={<UserProfile />} />
           </Route>
+          <Route path="/my-team" element={<TeamInfo/>}></Route>
           <Route path="/requests" element={<Requests />} />
         </Route>
       </Routes>
