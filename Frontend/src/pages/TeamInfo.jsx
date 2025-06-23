@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 
 function TeamInfo() {
   const { user, setUser } = useAuth();
+  
   const [team, setTeam] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
+  
   const navigate = useNavigate();
 
   const isAdmin = team?.admin?._id === user?._id;

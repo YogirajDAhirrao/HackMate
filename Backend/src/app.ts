@@ -5,10 +5,12 @@ import cookieParser from "cookie-parser";
 
 import authRouter from "./routes/auth.routes.js";
 import verifyJWT from "./middlewares/verifyJWT.js";
-import ProfileRouter from "./routes/profile.routes.js";
+import profileRouter from "./routes/profile.routes.js";
 import teamRouter from "./routes/team.routes.js";
-import RequestRouter from "./routes/requests.routes.js";
+
 import usersRouter from "./routes/users.routes.js";
+import friendRequestRouter from "./routes/friendRequests.routes.js";
+import teamInviteRouter from "./routes/teamInvite.routes.js";
 
 dotenv.config();
 
@@ -24,12 +26,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// Public Routes
 app.use("/auth", authRouter);
-app.use(verifyJWT); // applies after /auth
-app.use("/profile", ProfileRouter);
+
+// Protected Routes
+app.use(verifyJWT);
+app.use("/profile", profileRouter);
 app.use("/users", usersRouter);
 app.use("/team", teamRouter);
-app.use("/request", RequestRouter);
+app.use("/friend-request", friendRequestRouter); // New
+app.use("/team-invite", teamInviteRouter); // New
 
 app.get("/", (req, res) => {
   res.send("Hackmate API is running 🚀");

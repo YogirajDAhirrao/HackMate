@@ -6,17 +6,28 @@ import Team from "../model/team.model.js";
 interface AuthRequest extends Request {
   userId?: string;
 }
+type OutgoingRequest = {
+  to: {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    slug: string;
+  };
+  team: {
+    _id: mongoose.Types.ObjectId;
+    name: string;
+    description: string;
+  };
+};
 
-export const sendRequest = async (
-  req: AuthRequest,
-  res: Response
-): Promise<void> => {
+// --- SEND REQUEST ---
+export const sendRequest = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId;
     const targetId = req.params.id;
+    const { teamId } = req.body;
 
-    if (!userId || !targetId) {
-      res.status(400).json({ message: "Invalid request" });
+    if (!userId || !targetId || !teamId) {
+      res.status(400).json({ message: "Missing data" });
       return;
     }
 
@@ -25,21 +36,33 @@ export const sendRequest = async (
       return;
     }
 
-    const targetUser = await User.findById(targetId);
+    const [sender, targetUser, team] = await Promise.all([
+      User.findById(userId),
+      User.findById(targetId),
+      Team.findById(teamId),
+    ]);
 
-    if (!targetUser) {
-      res.status(404).json({ message: "Target user not found" });
+    if (!sender || !targetUser || !team) {
+      res.status(404).json({ message: "User or team not found" });
       return;
     }
 
-    const userObjectId = new mongoose.Types.ObjectId(userId);
-
-    if (targetUser.requests.includes(userObjectId)) {
-      res.status(400).json({ message: "Request already sent" });
+    // Check sender is part of the team
+    if (!team.members.includes(sender._id)) {
+      res.status(403).json({ message: "You are not a member of this team" });
       return;
     }
 
-    targetUser.requests.push(userObjectId);
+    // Check if request already exists
+    const alreadyRequested = targetUser.requests.some(
+      (r) => r.from.toString() === userId && r.team.toString() === teamId
+    );
+    if (alreadyRequested) {
+      res.status(400).json({ message: "Request already sent for this team" });
+      return;
+    }
+
+    targetUser.requests.push({ from: sender._id, team: team._id });
     await targetUser.save();
 
     res.status(200).json({ message: "Request sent successfully" });
@@ -49,76 +72,62 @@ export const sendRequest = async (
   }
 };
 
-export const acceptRequest = async (
-  req: AuthRequest,
-  res: Response
-): Promise<void> => {
+export const acceptRequest = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId;
     const requesterId = req.params.id;
-
-    if (!userId || !requesterId) {
-      res.status(400).json({ message: "Invalid request" });
-      return;
-    }
+    const { teamId } = req.body;
 
     const user = await User.findById(userId);
     const requester = await User.findById(requesterId);
+    const team = await Team.findById(teamId);
 
-    if (!user || !requester) {
-      res.status(404).json({ message: "User not found" });
+    if (!user || !requester || !team) {
+      res.status(404).json({ message: "User or team not found" });
       return;
     }
 
-    if (!user.requests.includes(requester._id)) {
+    // Find the matching request
+    const targetRequest = user.requests.find(
+      (r) => r.from.toString() === requesterId && r.team.toString() === teamId
+    );
+
+    if (!targetRequest) {
       res.status(400).json({ message: "No such request found" });
       return;
     }
 
-    if (user.team || requester.team) {
-      res.status(400).json({ message: "One of you is already in a team" });
-      return;
+    // Remove the matching request using Mongoose's .pull() method
+    user.requests.pull(targetRequest._id);
+
+    // Add user to the team if not already present
+    if (!team.members.includes(user._id)) {
+      team.members.push(user._id);
+      await team.save();
     }
 
-    // Step 1: Remove the request
-    user.requests = user.requests.filter((id) => id.toString() !== requesterId);
-
-    // Step 2: Create a new team with both users
-    const newTeam = new Team({
-      name: `${requester.name}'s Team`,
-      description: `Team formed by ${user.name} and ${requester.name}`,
-      members: [user._id, requester._id],
-      admin: requester._id,
-    });
-
-    await newTeam.save();
-
-    // Step 3: Set each user's team field
-    user.team = newTeam._id;
-    requester.team = newTeam._id;
+    // Add team to user's teams array
+    if (!user.teams.includes(team._id)) {
+      user.teams.push(team._id);
+    }
 
     await user.save();
-    await requester.save();
 
-    res.status(200).json({ message: "Request accepted. Team created!" });
+    res
+      .status(200)
+      .json({ message: "Request accepted and user added to the team" });
   } catch (error) {
     console.error("Error accepting request:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-export const rejectRequest = async (
-  req: AuthRequest,
-  res: Response
-): Promise<void> => {
+// --- REJECT REQUEST ---
+export const rejectRequest = async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId;
     const requesterId = req.params.id;
-
-    if (!userId || !requesterId) {
-      res.status(400).json({ message: "Invalid request" });
-      return;
-    }
+    const { teamId } = req.body;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -126,18 +135,19 @@ export const rejectRequest = async (
       return;
     }
 
-    const requesterObjectId = new mongoose.Types.ObjectId(requesterId);
+    const targetRequest = user.requests.find(
+      (r) => r.from.toString() === requesterId && r.team.toString() === teamId
+    );
 
-    if (!user.requests.includes(requesterObjectId)) {
+    if (!targetRequest) {
       res.status(400).json({ message: "No such request found" });
       return;
     }
 
-    // Remove the request
-    user.requests = user.requests.filter((id) => id.toString() !== requesterId);
+    // Remove using Mongoose's .pull()
+    user.requests.pull(targetRequest._id);
 
     await user.save();
-
     res.status(200).json({ message: "Request rejected successfully" });
   } catch (error) {
     console.error("Error rejecting request:", error);
@@ -152,9 +162,10 @@ export const cancelRequest = async (
   try {
     const userId = req.userId;
     const targetId = req.params.id;
+    const { teamId } = req.body;
 
-    if (!userId || !targetId) {
-      res.status(400).json({ message: "Invalid request" });
+    if (!userId || !targetId || !teamId) {
+      res.status(400).json({ message: "Missing required fields" });
       return;
     }
 
@@ -164,17 +175,17 @@ export const cancelRequest = async (
       return;
     }
 
-    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const targetRequest = targetUser.requests.find(
+      (r) => r.from.toString() === userId && r.team.toString() === teamId
+    );
 
-    if (!targetUser.requests.includes(userObjectId)) {
-      res.status(400).json({ message: "No request to cancel" });
+    if (!targetRequest) {
+      res.status(400).json({ message: "No request to cancel for this team" });
       return;
     }
 
-    // Remove the request
-    targetUser.requests = targetUser.requests.filter(
-      (id) => id.toString() !== userId
-    );
+    // Use .pull() with subdocument _id
+    targetUser.requests.pull(targetRequest._id);
 
     await targetUser.save();
 
@@ -185,53 +196,82 @@ export const cancelRequest = async (
   }
 };
 
-// View user's Incoming Request
 export const viewIncoming = async (
   req: AuthRequest,
   res: Response
 ): Promise<void> => {
   try {
     const userId = req.userId;
-
     if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
-    const user = await User.findById(userId).populate(
-      "requests",
-      "name email github skills slug"
-    );
+
+    const user = await User.findById(userId)
+      .populate({
+        path: "requests.from",
+        select: "name email github skills slug",
+      })
+      .populate({
+        path: "requests.team",
+        select: "name description",
+      });
+
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
     }
+
     res.status(200).json({ requests: user.requests });
   } catch (error) {
-
     console.error("Error fetching incoming requests:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// users can track whom they sent requests to
 export const getOutgoingRequests = async (
   req: AuthRequest,
   res: Response
 ): Promise<void> => {
   try {
     const userId = req.userId;
-
     if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
 
-    // Find users who have current user in their "requests" array
-    const outgoingUsers = await User.find({ requests: userId }).select(
-      "name email github skills"
-    );
+    const usersWithRequests = await User.find({
+      "requests.from": userId,
+    })
+      .populate({
+        path: "requests.from",
+        select: "name email github skills slug",
+      })
+      .populate({
+        path: "requests.team",
+        select: "name description",
+      })
+      .select("requests name slug"); // `name/slug` for target user display
 
-    res.status(200).json({ outgoing: outgoingUsers });
+    // Filter only the requests sent by this user
+    const outgoing: OutgoingRequest[] = [];
+
+    usersWithRequests.forEach((user) => {
+      user.requests.forEach((request) => {
+        if (request.from && request.from._id.toString() === userId) {
+          outgoing.push({
+            to: {
+              _id: user._id,
+              name: user.name,
+              slug: user.slug,
+            },
+            team: request.team,
+          });
+        }
+      });
+    });
+
+    res.status(200).json({ outgoing });
   } catch (error) {
     console.error("Error fetching outgoing requests:", error);
     res.status(500).json({ message: "Server error" });

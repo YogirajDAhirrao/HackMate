@@ -1,0 +1,63 @@
+.create-team-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #2a2a3c;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.create-team-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.create-team-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.input-field,
+.textarea-field {
+  padding: 10px 12px;
+  border-radius: 5px;
+  border: none;
+  background-color: #3a3a4c;
+  color: #fff;
+  font-size: 16px;
+  resize: none;
+}
+
+.input-field:focus,
+.textarea-field:focus {
+  outline: 2px solid #6c63ff;
+}
+
+.create-team-btn {
+  background-color: #6c63ff;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.create-team-btn:hover {
+  background-color: #5750e0;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+.required {
+  color: #ff6b6b;
+}

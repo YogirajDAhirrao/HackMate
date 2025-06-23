@@ -93,20 +93,30 @@ const ProfileSection = () => {
               </Link>
             </li>
             <li>
-              <button
+              <Link
+                to="/create-team"
+                style={{
+                  color: "#fff",
+                  textDecoration: "none",
+                  display: "block",
+                  padding: "5px 10px",
+                }}
+              >
+                Create Team
+              </Link>
+            </li>
+            <li>
+              <div
                 onClick={handleLogout}
                 style={{
-                  background: "none",
-                  border: "none",
                   color: "#fff",
+                  textDecoration: "none",
+                  display: "block",
                   padding: "5px 10px",
-                  cursor: "pointer",
-                  width: "100%",
-                  textAlign: "left",
                 }}
               >
                 Logout
-              </button>
+              </div>
             </li>
           </ul>
         </div>

@@ -39,15 +39,18 @@ const userSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
-    team: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Team",
-      default: null,
-    },
-    requests: [
+    teams: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Team",
+        default: null,
+      },
+    ],
+    friends: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
+        default: [],
       },
     ],
   },
@@ -57,19 +60,16 @@ const userSchema = new mongoose.Schema(
 // Custom hook to generate slug when name is created or updated
 userSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("name")) {
-    // Generate base slug from name
     let baseSlug = slugify(this.name, { lower: true, strict: true });
     let slug = baseSlug;
     let count = 1;
 
-    // Ensure slug uniqueness
     const User = mongoose.model("User");
     while (await User.findOne({ slug, _id: { $ne: this._id } })) {
       slug = `${baseSlug}-${count}`;
       count++;
     }
 
-    // Override any provided slug
     this.slug = slug;
   }
   next();

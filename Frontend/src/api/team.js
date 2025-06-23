@@ -49,3 +49,19 @@ export const removeMember = async (memberId) => {
 
   return await response.json();
 };
+
+export const createTeam = async (teamData) => {
+  const response = await fetch(`${BASE_URL}/team/create`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(teamData),
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Failed to create team");
+  }
+  return await response.json();
+};

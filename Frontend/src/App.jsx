@@ -11,6 +11,7 @@ import UserProfile from "./pages/UserProfile";
 import SearchContextWrapper from "./context/SearchContextWrapper";
 import Requests from "./pages/Requests";
 import TeamInfo from "./pages/TeamInfo";
+import CreateTeam from "./pages/CreateTeam";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/myprofile" element={<MyProfile />} />
+          <Route path="/create-team" element={<CreateTeam />} />
 
           <Route element={<SearchContextWrapper />}>
             <Route path="/explore" element={<Explore />} />
