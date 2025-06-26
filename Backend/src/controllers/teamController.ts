@@ -55,7 +55,10 @@ export const getMyTeams = async (
 ): Promise<void> => {
   try {
     const userId = req.userId;
-    if (!userId) res.status(401).json({ message: "Unauthorized" });
+    if (!userId) {
+      res.status(401).json({ message: "Unauthorized" });
+      return;
+    }
 
     const teams = await Team.find({ members: userId })
       .populate("members", "name email github slug")
@@ -82,11 +85,13 @@ export const addMemberToTeam = async (
       res.status(404).json({ message: "Team not found" });
       return;
     }
+
     if (!team.admin.equals(userId)) {
       res.status(403).json({ message: "Only team admins can add members" });
       return;
     }
-    if (team.members.includes(memberId)) {
+
+    if (team.members.some((id) => id.equals(memberId))) {
       res.status(400).json({ message: "Member already in the team" });
       return;
     }
@@ -97,7 +102,7 @@ export const addMemberToTeam = async (
       return;
     }
 
-    team.members.push(memberId);
+    team.members.push(new mongoose.Types.ObjectId(memberId));
     await team.save();
 
     member.teams.push(team._id);
@@ -124,14 +129,17 @@ export const removeMemberFromTeam = async (
       res.status(404).json({ message: "Team not found" });
       return;
     }
+
     if (!team.admin.equals(userId)) {
       res.status(403).json({ message: "Only team admins can remove members" });
       return;
     }
-    if (!team.members.includes(memberId)) {
+
+    if (!team.members.some((id) => id.equals(memberId))) {
       res.status(400).json({ message: "Member not in the team" });
       return;
     }
+
     if (team.admin.toString() === memberId.toString()) {
       res.status(400).json({ message: "Admin cannot remove themselves" });
       return;
@@ -166,10 +174,12 @@ export const deleteTeam = async (
       res.status(404).json({ message: "Team not found" });
       return;
     }
+
     if (!team.admin.equals(userId)) {
       res.status(403).json({ message: "Only admin can delete the team" });
       return;
     }
+
     await User.updateMany(
       { _id: { $in: team.members } },
       { $pull: { teams: team._id } }
@@ -183,13 +193,16 @@ export const deleteTeam = async (
     res.status(500).json({ message: "Server error" });
   }
 };
+
 export const leaveTeam = async (
   req: AuthRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
+    const { id: teamId } = req.params;
     const userId = req.userId;
+
     if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
       return;
@@ -201,14 +214,11 @@ export const leaveTeam = async (
       return;
     }
 
-    const team = await Team.findOne({ members: userId });
-    if (!team) {
-      // No need to use team._id here — just remove any broken ObjectId
-      user.teams = user.teams.filter((tid) => tid); // optional: filter falsy or log cleanup
-      await user.save();
+    const team = await Team.findById(teamId);
+    if (!team || !team.members.some((id) => id.equals(userId))) {
       res
-        .status(400)
-        .json({ message: "Team not found. You have been unlinked." });
+        .status(404)
+        .json({ message: "Team not found or you are not a member" });
       return;
     }
 
@@ -230,7 +240,6 @@ export const leaveTeam = async (
 
     await team.save();
 
-    // Remove this team from user's teams list
     user.teams = user.teams.filter((tid) => tid.toString() !== teamIdStr);
     await user.save();
 

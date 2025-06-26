@@ -18,6 +18,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       lowercase: true,
+      match: [/\S+@\S+\.\S+/, "Please enter a valid email address"],
     },
     password: {
       type: String,
@@ -43,21 +44,19 @@ const userSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Team",
-        default: null,
       },
     ],
     friends: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        default: [],
       },
     ],
   },
   { timestamps: true }
 );
 
-// Custom hook to generate slug when name is created or updated
+// Pre-save slug generator
 userSchema.pre("save", async function (next) {
   if (this.isNew || this.isModified("name")) {
     let baseSlug = slugify(this.name, { lower: true, strict: true });

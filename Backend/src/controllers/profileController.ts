@@ -15,20 +15,22 @@ export const getProfile = async (
     const userId = req.userId;
 
     if (!userId) {
-      res.status(401).json({ message: "User not authenticated" });
+      res
+        .status(401)
+        .json({ success: false, message: "User not authenticated" });
       return;
     }
 
-    const user = await User.findById(userId).select("-password"); // exclude password
+    const user = await User.findById(userId).select("-password");
 
     if (!user) {
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ success: false, message: "User not found" });
       return;
     }
 
-    res.status(200).json(user);
+    res.status(200).json({ success: true, user });
   } catch (error) {
-    next(error); // or: res.status(500).json({ message: "Something went wrong", error });
+    next(error);
   }
 };
 
@@ -38,26 +40,29 @@ export const updateProfile = async (
   next: NextFunction
 ): Promise<void> => {
   const userId = req.userId;
+
   if (!userId) {
-    res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ success: false, message: "Unauthorized" });
     return;
   }
 
-  const { name, email, bio, github, skills, interests, } = req.body;
+  const { name, bio, github, skills, interests } = req.body;
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { name, email, bio, github, skills, interests },
-      { new: true }
-    ).select("-password"); // Don't return password
+      { name, bio, github, skills, interests },
+      { new: true, runValidators: true }
+    ).select("-password");
 
     if (!updatedUser) {
-      res.status(404).json({ message: "User not found" });
+      res.status(404).json({ success: false, message: "User not found" });
       return;
     }
 
-    res.status(200).json({ message: "Profile updated", user: updatedUser });
+    res
+      .status(200)
+      .json({ success: true, message: "Profile updated", user: updatedUser });
   } catch (error) {
     next(error);
   }

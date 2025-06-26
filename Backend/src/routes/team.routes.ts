@@ -14,19 +14,19 @@ const teamRouter = Router();
 // Create a team
 teamRouter.post("/create", createTeam);
 
-// Get current user's team
+// Get current user's teams
 teamRouter.get("/me", getMyTeams);
 
 // Add member (admin only)
 teamRouter.put("/:id/add-member", isTeamAdmin, addMemberToTeam);
 
-// Remove member (admin only)
-teamRouter.post("/remove-member/:memberId", isTeamAdmin, removeMemberFromTeam);
+// Remove member (admin only) - fixed route
+teamRouter.put("/:id/remove-member", isTeamAdmin, removeMemberFromTeam);
 
 // Delete team (admin only)
 teamRouter.delete("/:id", isTeamAdmin, deleteTeam);
 
-// Leave team
-teamRouter.post("/leave", leaveTeam);
+// Leave team - fixed to accept team ID
+teamRouter.post("/:id/leave", leaveTeam);
 
 export default teamRouter;
