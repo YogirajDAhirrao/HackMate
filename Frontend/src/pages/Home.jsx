@@ -1,7 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import AuthenticatedHome from "../ui/AuthenticatedHome";
 import UnauthenticatedHome from "../ui/UnauthenticatedHome";
-import "./Home.css";
+//import "./Home.css";
 
 function Home() {
   const { user, loading } = useAuth();

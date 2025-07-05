@@ -5,15 +5,14 @@ import "./AuthenticatedHome.css";
 
 import { Link } from "react-router-dom";
 
-
 function AuthenticatedHome({ user }) {
   return (
     <div className="homepage-container">
       <h1 className="welcome">Welcome, {user.name}</h1>
       <div className="grid">
         <Card title="Your Team">
-          {user.team ? (
-            <Link to="/my-team">View My Team</Link>
+          {user.teams ? (
+            <Link to="/my-team">View Your Teams</Link>
           ) : (
             <>You Have Not Joined any team</>
           )}

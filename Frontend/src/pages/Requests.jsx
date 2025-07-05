@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  acceptRequest,
-  getIncomingRequests,
-  rejectRequests,
-} from "../api/user";
+import { acceptRequest, getIncomingRequests, rejectRequest } from "../api/user";
 import "./Requests.css";
 import { useNavigate } from "react-router-dom";
 
 function Requests() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [acceptingId, setAcceptingId] = useState(null); // Track which request is being accepted
+  const [acceptingId, setAcceptingId] = useState(null);
   const [rejectingId, setRejectingId] = useState(null);
   const navigate = useNavigate();
 
@@ -18,7 +14,7 @@ function Requests() {
     const fetchRequests = async () => {
       try {
         const res = await getIncomingRequests();
-        setRequests(res.requests || []);
+        setRequests(res || []);
       } catch (error) {
         console.error("Error fetching requests:", error);
       } finally {
@@ -36,7 +32,6 @@ function Requests() {
       console.log(res.message);
       alert(res.message);
 
-      // Remove accepted request from the list
       setRequests((prev) => prev.filter((r) => r._id !== requestId));
     } catch (err) {
       console.error("Accept failed:", err.message);
@@ -45,18 +40,20 @@ function Requests() {
       setAcceptingId(null);
     }
   };
+
   const handleReject = async (requestId) => {
     setRejectingId(requestId);
     try {
-      const res = await rejectRequests(requestId);
+      const res = await rejectRequest(requestId);
       console.log(res.message);
       alert(res.message);
+
       setRequests((prev) => prev.filter((r) => r._id !== requestId));
     } catch (err) {
-      console.error("Accept failed:", err.message);
+      console.error("Reject failed:", err.message);
       alert(err.message);
     } finally {
-      setAcceptingId(null);
+      setRejectingId(null);
     }
   };
 
@@ -79,20 +76,20 @@ function Requests() {
               <div
                 key={req._id}
                 className="request-card"
-                onClick={() => handleClick(req.slug)}
+                onClick={() => handleClick(req.from.slug)}
               >
                 <div className="request-info">
                   <p>
-                    <strong>Name:</strong> {req.name}
+                    <strong>Name:</strong> {req.from.name}
                   </p>
                   <p>
-                    <strong>From:</strong> {req.email || req.github}
+                    <strong>Email:</strong> {req.from.email}
                   </p>
                 </div>
                 <button
                   className="accept-button"
                   onClick={(e) => {
-                    e.stopPropagation(); // prevent card click from navigating
+                    e.stopPropagation();
                     handleAccept(req._id);
                   }}
                   disabled={acceptingId === req._id}

@@ -137,8 +137,15 @@ export const acceptTeamInvite = async (
 
     // Avoid adding duplicates
     if (!team.members.some((memberId) => memberId.equals(userId))) {
-      team.members.push(new mongoose.Types.ObjectId(userId)); // ✅ FIXED
+      team.members.push(new mongoose.Types.ObjectId(userId));
       await team.save();
+    }
+
+    // ✅ Update user's teams array
+    const user = await User.findById(userId);
+    if (user && !user.teams.some((teamId) => teamId.equals(team._id))) {
+      user.teams.push(team._id);
+      await user.save();
     }
 
     // Update invite status

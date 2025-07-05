@@ -13,16 +13,16 @@ export const AuthProvider = ({ children }) => {
       try {
         setLoading(true);
         const res = await getProfile(); // fetch /auth/profile
-        setUser(res); // set user if authenticated
+        setUser(res.user); // ✅ Only store the user object
       } catch {
-        setUser(null); // not authenticated
+        setUser(null);
       } finally {
         setLoading(false);
       }
     };
 
     fetchUser();
-  }, []); // Remove unnecessary dependencies
+  }, []);
 
   const logout = async () => {
     try {

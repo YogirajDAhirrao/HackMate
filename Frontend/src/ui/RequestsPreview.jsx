@@ -10,7 +10,8 @@ function RequestsPreview() {
     const fetchRequests = async () => {
       try {
         const res = await getIncomingRequests();
-        setRequests(res.requests || []);
+        // Your API directly returns the array in `incomingRequests`
+        setRequests(res || []);
       } catch (error) {
         console.error("Error fetching requests:", error);
       }
@@ -21,7 +22,7 @@ function RequestsPreview() {
 
   const handleClick = () => {
     if (requests.length > 0) {
-      navigate("/requests");
+      navigate("/requests"); // Navigate to detailed requests page
     }
   };
 

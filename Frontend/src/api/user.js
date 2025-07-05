@@ -62,7 +62,8 @@ export const getUsers = async (query) => {
       `Failed to fetch users: ${response.status} ${response.statusText} - ${text}`
     );
   }
-  return response.json();
+  const data = await response.json();
+  return data.users;
 };
 
 export const updateProfile = async (formData) => {
@@ -91,35 +92,32 @@ export const getUserByID = async (slug) => {
     const error = await response.json();
     throw new Error(error.message || "Failed to fetch user");
   }
-  return response.json();
+  const data = await response.json();
+  return data.user;
 };
 
 //request APIs
-export const sendrequest = async (targetid) => {
-  const response = await fetch(`${BASE_URL}/request/send/${targetid}`, {
+export const sendFriendRequest = async (userId) => {
+  const response = await fetch(`${BASE_URL}/friend-request/${userId}`, {
     method: "POST",
     credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
+
   if (!response.ok) {
-    throw new Error("Failed to send request");
+    const error = await response.json();
+    throw new Error(error.message || "Failed to send friend request");
   }
-  return response.json();
+
+  return await response.json();
 };
 
-export const getRequests = async () => {
-  const response = await fetch(`${BASE_URL}/request/incoming`, {
-    method: "GET",
-    credentials: "include",
-  });
-  if (!response.ok) {
-    const errData = await response.json();
-    throw new Error(errData.message || "Failed to fetch requests");
-  }
-  return response.json();
-};
+
 
 export const acceptRequest = async (targetid) => {
-  const response = await fetch(`${BASE_URL}/request/accept/${targetid}`, {
+  const response = await fetch(`${BASE_URL}/friend-request/${targetid}/accept`, {
     method: "POST",
     credentials: "include",
   });
@@ -130,8 +128,8 @@ export const acceptRequest = async (targetid) => {
   return response.json();
 };
 
-export const rejectRequests = async (targetid) => {
-  const response = await fetch(`${BASE_URL}/request/reject/${targetid}`, {
+export const rejectRequest = async (targetid) => {
+  const response = await fetch(`${BASE_URL}/friend-request/${targetid}/reject`, {
     method: "POST",
     credentials: "include",
   });
@@ -155,7 +153,7 @@ export const cancelRequests = async (targetid) => {
 };
 
 export const getIncomingRequests = async () => {
-  const response = await fetch(`${BASE_URL}/request/incoming`, {
+  const response = await fetch(`${BASE_URL}/friend-request/incoming`, {
     method: "GET",
     credentials: "include",
   });
@@ -163,5 +161,6 @@ export const getIncomingRequests = async () => {
     const errData = await response.json();
     throw new Error(errData.message || "Failed to fetch requests");
   }
-  return response.json();
+  const data = await response.json();
+  return data.incomingRequests;
 };

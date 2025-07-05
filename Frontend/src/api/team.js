@@ -14,8 +14,9 @@ export const getMyTeam = async () => {
   }
 
   const data = await response.json();
-  return data.team;
+  return data.teams; 
 };
+
 
 export const leaveTeam = async () => {
   const response = await fetch(`${BASE_URL}/team/leave`, {
