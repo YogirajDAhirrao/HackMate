@@ -9,14 +9,14 @@ import {
 
 const teamInviteRouter = Router();
 
-// Send a team invite (only to friends)
-teamInviteRouter.post("/:teamId/:userId", sendTeamInvite);
-
 // Accept a team invite
 teamInviteRouter.post("/:inviteId/accept", acceptTeamInvite);
 
 // Reject a team invite
 teamInviteRouter.post("/:inviteId/reject", rejectTeamInvite);
+
+// Send a team invite (only to friends)
+teamInviteRouter.post("/:teamId/:userId", sendTeamInvite);
 
 // View incoming invites
 teamInviteRouter.get("/incoming", getIncomingTeamInvites);

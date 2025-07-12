@@ -1,9 +1,53 @@
-.requests-preview {
-  font-size: 1rem;
-  color: #334155;
+.requests-preview-card {
+  background-color: #262636;
+  color: #ffffff;
+  padding: 1.5rem 2rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s;
 }
 
-.number-of-requests {
+.requests-preview-card:hover {
+  background-color: #2f2f46;
+}
+
+.requests-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.notification-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notification-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+}
+
+.label {
+  color: #b0b0c3;
+}
+
+.value {
   font-weight: bold;
-  color: #0f172a;
+  font-size: 1.1rem;
+}
+
+.highlight {
+  color: #00ffae;
+}
+
+.dimmed {
+  color: #888;
+}
+
+.empty-state {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: gray;
 }

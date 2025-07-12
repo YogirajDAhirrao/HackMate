@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "./UnauthenticatedHome.css";
 
 function UnauthenticatedHome() {
   return (
@@ -17,4 +18,4 @@ function UnauthenticatedHome() {
   );
 }
 
-export default UnauthenticatedHome
+export default UnauthenticatedHome;

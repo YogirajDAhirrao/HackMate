@@ -114,13 +114,14 @@ export const sendFriendRequest = async (userId) => {
   return await response.json();
 };
 
-
-
 export const acceptRequest = async (targetid) => {
-  const response = await fetch(`${BASE_URL}/friend-request/${targetid}/accept`, {
-    method: "POST",
-    credentials: "include",
-  });
+  const response = await fetch(
+    `${BASE_URL}/friend-request/${targetid}/accept`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
   if (!response.ok) {
     const errData = await response.json();
     throw new Error(errData.message || "Failed to accept request");
@@ -129,10 +130,13 @@ export const acceptRequest = async (targetid) => {
 };
 
 export const rejectRequest = async (targetid) => {
-  const response = await fetch(`${BASE_URL}/friend-request/${targetid}/reject`, {
-    method: "POST",
-    credentials: "include",
-  });
+  const response = await fetch(
+    `${BASE_URL}/friend-request/${targetid}/reject`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
   if (!response.ok) {
     const errData = await response.json();
     throw new Error(errData.message || "Failed to reject request");
@@ -163,4 +167,20 @@ export const getIncomingRequests = async () => {
   }
   const data = await response.json();
   return data.incomingRequests;
+};
+export const getFriends = async (params) => {};
+export const sendTeamInvite = async (teamID, inviteeID) => {
+  const response = await fetch(
+    `${BASE_URL}/team-invite/${teamID}/${inviteeID}`,
+    {
+      method: "POST",
+      credentials: "include",
+    }
+  );
+  if (!response.ok) {
+    const errData = await response.json();
+    throw new Error(errData.message || "Failed to send team Invite");
+  }
+  const data = await response.json();
+  return data;
 };

@@ -16,7 +16,7 @@ const verifyJWT = (
   next: NextFunction
 ): void => {
   const token = req.cookies?.token;
-  console.log(token)
+  console.log(token);
 
   if (!token) {
     res.status(401).json({ message: "Access denied. No token provided." });
@@ -24,17 +24,13 @@ const verifyJWT = (
   }
 
   try {
-    const decoded = jwt.verify(
-      token,
-      JWT_SECRET
-    ) as JwtPayloadWithUserId;
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayloadWithUserId;
     req.userId = decoded.userId; // attach to request object
-    console.log(req.userId , "JWT");
-    
+    console.log(req.userId, "JWT");
+
     next(); // pass control to the next middleware
-    
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(403).json({ message: "Invalid or expired token." });
   }
 };

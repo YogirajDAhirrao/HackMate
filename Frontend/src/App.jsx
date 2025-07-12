@@ -12,6 +12,7 @@ import SearchContextWrapper from "./context/SearchContextWrapper";
 import Requests from "./pages/Requests";
 import TeamInfo from "./pages/TeamInfo";
 import CreateTeam from "./pages/CreateTeam";
+import Team from "./pages/Team";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/profile/:slug" element={<UserProfile />} />
           </Route>
+          <Route path="/team" element={<Team />} />
           <Route path="/my-team" element={<TeamInfo />} />
           <Route path="/requests" element={<Requests />} />
         </Route>

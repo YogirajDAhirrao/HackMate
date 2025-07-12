@@ -16,8 +16,9 @@ function CreateTeam() {
     setLoading(true);
 
     try {
-      await createTeam({ name, description });
-      navigate("/team"); // or navigate(`/team/${result.teamId}`) if needed
+      const teamResponse = await createTeam({ name, description });
+      
+      navigate("/team", { state: { team: teamResponse.team } });
     } catch (err) {
       console.error(err);
       setError(err.message || "Something went wrong");

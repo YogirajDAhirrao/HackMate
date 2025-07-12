@@ -21,17 +21,18 @@ export const getProfile = async (
       return;
     }
 
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId)
+      .select("-password")
+      .populate("friends", "name email github slug"); // ✅ Populating friends with selected fields
 
     if (!user) {
       res.status(404).json({ success: false, message: "User not found" });
       return;
     }
-    console.log(user);
-    
 
     res.status(200).json({ success: true, user });
   } catch (error) {
+    console.error("Error fetching user profile:", error);
     next(error);
   }
 };

@@ -1,113 +1,213 @@
 import { useEffect, useState } from "react";
-import { acceptRequest, getIncomingRequests, rejectRequest } from "../api/user";
-import "./Requests.css";
+import { getIncomingRequests, acceptRequest, rejectRequest } from "../api/user";
+import {
+  getIncomingTeamInvites,
+  getOutgoingTeamInvites,
+  acceptTeamInvite,
+  rejectTeamInvite,
+} from "../api/team";
 import { useNavigate } from "react-router-dom";
+import "./Requests.css";
 
 function Requests() {
-  const [requests, setRequests] = useState([]);
+  const [activeTab, setActiveTab] = useState("friend");
+  const [friendRequests, setFriendRequests] = useState([]);
+  const [incomingTeamInvites, setIncomingTeamInvites] = useState([]);
+  const [outgoingTeamInvites, setOutgoingTeamInvites] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [acceptingId, setAcceptingId] = useState(null);
-  const [rejectingId, setRejectingId] = useState(null);
+  const [processingId, setProcessingId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRequests = async () => {
+    async function fetchData() {
+      setLoading(true);
       try {
-        const res = await getIncomingRequests();
-        setRequests(res || []);
+        const [friends, incoming, outgoing] = await Promise.all([
+          getIncomingRequests(),
+          getIncomingTeamInvites(),
+          getOutgoingTeamInvites(),
+        ]);
+
+        setFriendRequests(friends || []);
+        setIncomingTeamInvites((incoming || []).filter((i) => i.team));
+        setOutgoingTeamInvites((outgoing || []).filter((i) => i.team));
       } catch (error) {
         console.error("Error fetching requests:", error);
       } finally {
         setLoading(false);
       }
-    };
+    }
 
-    fetchRequests();
+    fetchData();
   }, []);
 
-  const handleAccept = async (requestId) => {
-    setAcceptingId(requestId);
+  const handleAccept = async (type, id) => {
+    setProcessingId(id);
     try {
-      const res = await acceptRequest(requestId);
-      console.log(res.message);
-      alert(res.message);
-
-      setRequests((prev) => prev.filter((r) => r._id !== requestId));
+      if (type === "friend") {
+        await acceptRequest(id);
+        setFriendRequests((prev) => prev.filter((r) => r._id !== id));
+      } else {
+        await acceptTeamInvite(id);
+        setIncomingTeamInvites((prev) => prev.filter((r) => r._id !== id));
+      }
     } catch (err) {
-      console.error("Accept failed:", err.message);
-      alert(err.message);
+      alert(err.message || "Failed to accept");
     } finally {
-      setAcceptingId(null);
+      setProcessingId(null);
     }
   };
 
-  const handleReject = async (requestId) => {
-    setRejectingId(requestId);
+  const handleReject = async (type, id) => {
+    setProcessingId(id);
     try {
-      const res = await rejectRequest(requestId);
-      console.log(res.message);
-      alert(res.message);
-
-      setRequests((prev) => prev.filter((r) => r._id !== requestId));
+      if (type === "friend") {
+        await rejectRequest(id);
+        setFriendRequests((prev) => prev.filter((r) => r._id !== id));
+      } else {
+        await rejectTeamInvite(id);
+        setIncomingTeamInvites((prev) => prev.filter((r) => r._id !== id));
+      }
     } catch (err) {
-      console.error("Reject failed:", err.message);
-      alert(err.message);
+      alert(err.message || "Failed to reject");
     } finally {
-      setRejectingId(null);
+      setProcessingId(null);
     }
   };
 
-  const handleClick = (slug) => {
-    navigate(`/profile/${slug}`);
+  const handleClick = (slug) => navigate(`/profile/${slug}`);
+  const handleTeamClick = (slug) => navigate(`/teams/${slug}`);
+
+  const renderCard = (req, type) => {
+    const isTeam = type === "team";
+    const from = req.from;
+    const label = isTeam
+      ? `Team Invite - ${req.team?.name || "Deleted Team"}`
+      : "Friend Request";
+
+    return (
+      <div
+        key={req._id}
+        className="request-card"
+        onClick={() => handleClick(from.slug)}
+      >
+        <div className="request-info">
+          <p>
+            <strong>{label}</strong>
+          </p>
+          <p>
+            <strong>Name:</strong> {from.name}
+          </p>
+          <p>
+            <strong>Email:</strong> {from.email}
+          </p>
+          {isTeam && (
+            <p>
+              <strong>Team:</strong>{" "}
+              {req.team ? (
+                req.team.name
+              ) : (
+                <span style={{ color: "red" }}>Deleted</span>
+              )}
+            </p>
+          )}
+        </div>
+        <button
+          className="accept-button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleAccept(type, req._id);
+          }}
+          disabled={processingId === req._id}
+        >
+          {processingId === req._id ? "Accepting..." : "Accept"}
+        </button>
+        <button
+          className="reject-button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleReject(type, req._id);
+          }}
+          disabled={processingId === req._id}
+        >
+          {processingId === req._id ? "Rejecting..." : "Reject"}
+        </button>
+      </div>
+    );
   };
+
+  const renderOutgoingTeamInvite = (invite) => (
+    <div
+      key={invite._id}
+      className="request-card"
+      onClick={() => invite.team?.slug && handleTeamClick(invite.team.slug)}
+    >
+      <div className="request-info">
+        <p>
+          <strong>Invite Sent</strong>
+        </p>
+        <p>
+          <strong>To:</strong> {invite.to.name} ({invite.to.email})
+        </p>
+        <p>
+          <strong>Team:</strong>{" "}
+          {invite.team ? (
+            invite.team.name
+          ) : (
+            <span style={{ color: "red" }}>Deleted</span>
+          )}
+        </p>
+      </div>
+    </div>
+  );
 
   return (
     <div className="requests-page">
       <h2>Your Requests</h2>
 
+      <div className="tab-switcher">
+        <button
+          className={activeTab === "friend" ? "active" : ""}
+          onClick={() => setActiveTab("friend")}
+        >
+          Friend Requests
+        </button>
+        <button
+          className={activeTab === "team" ? "active" : ""}
+          onClick={() => setActiveTab("team")}
+        >
+          Team Invites
+        </button>
+        <button
+          className={activeTab === "sent" ? "active" : ""}
+          onClick={() => setActiveTab("sent")}
+        >
+          Sent Invites
+        </button>
+      </div>
+
       {loading ? (
-        <p className="loading-text">Loading requests...</p>
+        <p className="loading-text">Loading...</p>
       ) : (
         <div className="request-list">
-          {requests.length === 0 ? (
-            <p>No requests received.</p>
+          {activeTab === "friend" ? (
+            friendRequests.length === 0 ? (
+              <p>No friend requests received.</p>
+            ) : (
+              friendRequests.map((req) => renderCard(req, "friend"))
+            )
+          ) : activeTab === "team" ? (
+            incomingTeamInvites.length === 0 ? (
+              <p>No incoming team invites.</p>
+            ) : (
+              incomingTeamInvites.map((invite) => renderCard(invite, "team"))
+            )
+          ) : outgoingTeamInvites.length === 0 ? (
+            <p>No outgoing team invites.</p>
           ) : (
-            requests.map((req) => (
-              <div
-                key={req._id}
-                className="request-card"
-                onClick={() => handleClick(req.from.slug)}
-              >
-                <div className="request-info">
-                  <p>
-                    <strong>Name:</strong> {req.from.name}
-                  </p>
-                  <p>
-                    <strong>Email:</strong> {req.from.email}
-                  </p>
-                </div>
-                <button
-                  className="accept-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAccept(req._id);
-                  }}
-                  disabled={acceptingId === req._id}
-                >
-                  {acceptingId === req._id ? "Accepting..." : "Accept"}
-                </button>
-                <button
-                  className="reject-button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleReject(req._id);
-                  }}
-                  disabled={rejectingId === req._id}
-                >
-                  {rejectingId === req._id ? "Rejecting..." : "Reject"}
-                </button>
-              </div>
-            ))
+            outgoingTeamInvites.map((invite) =>
+              renderOutgoingTeamInvite(invite)
+            )
           )}
         </div>
       )}

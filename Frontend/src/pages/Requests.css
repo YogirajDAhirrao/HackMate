@@ -1,24 +1,55 @@
 .requests-page {
   padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: white;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.tab-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-switcher button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  background: #2e2e3f;
+  color: white;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tab-switcher button.active {
+  background: #4caf50;
+}
+
+.tab-switcher button:hover:not(.active) {
+  background: #444459;
 }
 
 .request-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .request-card {
   background-color: #1f1f2e;
   color: white;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   border-radius: 12px;
   border: 1px solid #333;
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  cursor: pointer;
   transition: background 0.3s;
 }
 
@@ -26,34 +57,46 @@
   background-color: #2a2a3d;
 }
 
+.request-info {
+  flex-grow: 1;
+  min-width: 200px;
+}
+
 .request-info p {
-  margin: 0.25rem 0;
+  margin: 0.3rem 0;
+  line-height: 1.4;
+}
+
+.accept-button,
+.reject-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  min-width: 100px;
 }
 
 .accept-button {
   background-color: #4caf50;
   color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
 }
 
-.accept-button[disabled] {
-  background-color: #888;
-  cursor: not-allowed;
+.accept-button:hover {
+  background-color: #43a047;
 }
+
 .reject-button {
-  background-color: #4caf50;
+  background-color: #e53935;
   color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
 }
 
+.reject-button:hover {
+  background-color: #d32f2f;
+}
+
+.accept-button[disabled],
 .reject-button[disabled] {
   background-color: #888;
   cursor: not-allowed;
@@ -61,6 +104,7 @@
 
 .loading-text {
   font-style: italic;
-  color: gray;
+  color: #ccc;
   padding: 1rem;
+  text-align: center;
 }

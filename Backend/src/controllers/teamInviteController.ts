@@ -109,6 +109,7 @@ export const acceptTeamInvite = async (
     }
 
     const teamInvite = await TeamInvite.findById(inviteId);
+    console.log("team Invite", teamInvite);
 
     if (!teamInvite) {
       res.status(404).json({ message: "Team invite not found" });

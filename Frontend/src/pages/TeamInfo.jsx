@@ -30,7 +30,9 @@ function TeamInfo() {
 
     fetchTeams();
   }, []);
-
+  const handleOnclickRedirectToTeam = async (team) => {
+    navigate("/team", { state: { team: team } });
+  };
   const handleLeave = async (teamId) => {
     try {
       await leaveTeam(teamId);
@@ -120,7 +122,11 @@ function TeamInfo() {
         const isAdmin = team?.admin?._id === user?._id;
 
         return (
-          <div key={team._id} className="team-card">
+          <div
+            key={team._id}
+            className="team-card"
+            onClick={() => handleOnclickRedirectToTeam(team)}
+          >
             {team.logo && (
               <img
                 src={team.logo}
@@ -134,7 +140,11 @@ function TeamInfo() {
             </p>
             <div className="members">
               <h3 className="section-title">Members</h3>
-              <ul className="member-list" aria-label="Team members">
+              <ul
+                className="member-list"
+                aria-label="Team members"
+                onClick={(e) => e.stopPropagation()}
+              >
                 {team.members.map((member) => (
                   <li
                     key={member._id}
@@ -169,9 +179,11 @@ function TeamInfo() {
             </div>
             <button
               className="leave-btn"
-              onClick={() =>
-                setShowConfirm((prev) => ({ ...prev, [team._id]: true }))
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+
+                setShowConfirm((prev) => ({ ...prev, [team._id]: true }));
+              }}
               aria-label="Leave team"
             >
               Leave Team
@@ -181,16 +193,23 @@ function TeamInfo() {
                 <p>Are you sure you want to leave {team.name}?</p>
                 <div className="confirm-buttons">
                   <button
-                    onClick={() => handleLeave(team._id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleLeave(team._id);
+                    }}
                     className="confirm-btn"
                     aria-label="Confirm leave team"
                   >
                     Yes, Leave
                   </button>
                   <button
-                    onClick={() =>
-                      setShowConfirm((prev) => ({ ...prev, [team._id]: false }))
-                    }
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowConfirm((prev) => ({
+                        ...prev,
+                        [team._id]: false,
+                      }));
+                    }}
                     className="cancel-btn"
                     aria-label="Cancel leave team"
                   >

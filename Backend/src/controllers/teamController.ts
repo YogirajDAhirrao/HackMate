@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
 import Team from "../model/team.model.js";
 import User from "../model/user.model.js";
+import TeamInvite from "../model/teamInvite.model.js";
 
 interface AuthRequest extends Request {
   userId?: string;
@@ -216,9 +217,7 @@ export const leaveTeam = async (
 
     const team = await Team.findById(teamId);
     if (!team || !team.members.some((id) => id.equals(userId))) {
-      res
-        .status(404)
-        .json({ message: "Team not found or you are not a member" });
+      res.status(404).json({ message: "Team not found or you are not a member" });
       return;
     }
 
@@ -229,17 +228,25 @@ export const leaveTeam = async (
 
     if (team.admin.toString() === userId) {
       if (team.members.length > 0) {
+        // Transfer admin role to first remaining member
         team.admin = team.members[0];
+        await team.save();
       } else {
+        // 🧹 Clean up: Delete team, remove from user, and delete invites
         await User.updateOne({ _id: userId }, { $pull: { teams: team._id } });
         await Team.findByIdAndDelete(team._id);
+
+        // ✅ Delete all related team invites
+        await TeamInvite.deleteMany({ team: team._id });
+
         res.status(200).json({ message: "Team deleted and you have left" });
         return;
       }
+    } else {
+      await team.save();
     }
 
-    await team.save();
-
+    // Remove the team from user's list
     user.teams = user.teams.filter((tid) => tid.toString() !== teamIdStr);
     await user.save();
 
