@@ -1,24 +1,21 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import "./ProfileDropdown.css"; // ✅ Import CSS module
 
 const ProfileSection = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [timeoutId, setTimeoutId] = useState(null); // For handling delay
+  const [timeoutId, setTimeoutId] = useState(null);
 
   const handleMouseEnter = () => {
-    // Clear any existing timeout to prevent closing
     if (timeoutId) clearTimeout(timeoutId);
     setIsDropdownOpen(true);
   };
 
   const handleMouseLeave = () => {
-    // Set a timeout to close the dropdown after a short delay
-    const id = setTimeout(() => {
-      setIsDropdownOpen(false);
-    }, 200); // 200ms delay
+    const id = setTimeout(() => setIsDropdownOpen(false), 200);
     setTimeoutId(id);
   };
 
@@ -29,94 +26,30 @@ const ProfileSection = () => {
 
   return (
     <div
-      className="profile-section"
-      style={{ position: "relative" }}
+      className="profile-dropdown"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Profile Avatar and Name */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          cursor: "pointer",
-          color: "#fff",
-        }}
-      >
+      <div className="profile-trigger">
         <img
-          src={user?.avatar || "/images/image.png"} // Fallback avatar
-          alt="Profile"
-          style={{
-            width: "40px",
-            height: "40px",
-            borderRadius: "50%",
-            marginRight: "10px",
-          }}
+          src={user?.avatar || "/images/image.png"}
+          alt="Avatar"
+          className="profile-avatar"
         />
-        <span>{user?.name || "User"}</span>
+        <span className="profile-name">{user?.name || "User"}</span>
       </div>
 
-      {/* Dropdown Menu */}
       {isDropdownOpen && (
-        <div
-          style={{
-            position: "absolute",
-            top: "45px", // Reduced gap to make transition smoother
-            right: "0",
-            backgroundColor: "#2a2a3c",
-            borderRadius: "5px",
-            boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-            zIndex: 10,
-          }}
-        >
-          <ul style={{ listStyle: "none", padding: "10px", margin: "0" }}>
+        <div className="dropdown-menu">
+          <ul>
             <li>
-              <Link
-                to="/myprofile"
-                style={{
-                  color: "#fff",
-                  textDecoration: "none",
-                  display: "block",
-                  padding: "5px 10px",
-                }}
-              >
-                {/* <a
-                href="/profile"
-                style={{
-                  color: "#fff",
-                  textDecoration: "none",
-                  display: "block",
-                  padding: "5px 10px",
-                }}
-              > */}
-                View Profile
-              </Link>
+              <Link to="/myprofile">View Profile</Link>
             </li>
             <li>
-              <Link
-                to="/create-team"
-                style={{
-                  color: "#fff",
-                  textDecoration: "none",
-                  display: "block",
-                  padding: "5px 10px",
-                }}
-              >
-                Create Team
-              </Link>
+              <Link to="/create-team">Create Team</Link>
             </li>
             <li>
-              <div
-                onClick={handleLogout}
-                style={{
-                  color: "#fff",
-                  textDecoration: "none",
-                  display: "block",
-                  padding: "5px 10px",
-                }}
-              >
-                Logout
-              </div>
+              <div onClick={handleLogout}>Logout</div>
             </li>
           </ul>
         </div>

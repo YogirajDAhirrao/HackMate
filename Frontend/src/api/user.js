@@ -168,7 +168,7 @@ export const getIncomingRequests = async () => {
   const data = await response.json();
   return data.incomingRequests;
 };
-export const getFriends = async (params) => {};
+export const getFriends = async () => {};
 export const sendTeamInvite = async (teamID, inviteeID) => {
   const response = await fetch(
     `${BASE_URL}/team-invite/${teamID}/${inviteeID}`,

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { updateProfile } from "../api/user";
@@ -17,6 +17,7 @@ function MyProfile() {
   });
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState(false);
+
   useEffect(() => {
     if (!loading && !user) {
       navigate("/login");
@@ -43,6 +44,7 @@ function MyProfile() {
       [name]: value,
     }));
   };
+
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
     setError(null);
@@ -68,98 +70,117 @@ function MyProfile() {
       setError(null);
     } catch (error) {
       console.error(error);
-      setError(error || "Failed to update profile");
+      setError(error.message || "Failed to update profile");
     }
   };
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (!user) {
-    return null; // Redirect handled by useEffect
-  }
+
+  if (loading) return <div>Loading...</div>;
+  if (!user) return null;
 
   return (
     <div className="profile-page">
-      <div className="profile-image">
-        <img src={user?.avatar || "/images/image.png"} alt="Profile" />
+      <div className="profile-header">
+        <div className="profile-image">
+          <img src={user?.avatar || "/images/image.png"} alt="Profile" />
+        </div>
+        <h2>{user.name}</h2>
+        <p className="profile-email">{user.email}</p>
       </div>
-      <div className="profile-details">
-        <form className="profile-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Name</label>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              disabled={!isEditing}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              name="email"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              disabled={!isEditing}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Bio</label>
-            <textarea
-              name="bio"
-              value={formData.bio}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-          <div className="form-group">
-            <label>GitHub URL</label>
-            <input
-              name="github"
-              value={formData.github}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-          <div className="form-group">
-            <label>Skills (comma-separated)</label>
-            <input
-              name="skills"
-              value={formData.skills}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-          <div className="form-group">
-            <label>Interests (comma-separated)</label>
-            <input
-              name="interests"
-              value={formData.interests}
-              onChange={handleChange}
-              disabled={!isEditing}
-            />
-          </div>
-          {user.team ? (
-            <div>Current Team : {user.team}</div>
-          ) : (
-            <div>No team Joined!!</div>
-          )}
-          {isEditing ? (
-            <>
-              <button type="submit">Save Changes</button>
-              <button type="button" onClick={handleEditToggle}>
-                Cancel
-              </button>
-            </>
-          ) : (
+
+      <form className="profile-form" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Name</label>
+          <input
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            disabled={!isEditing}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label>Bio</label>
+          <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleChange}
+            disabled={!isEditing}
+          />
+        </div>
+        <div className="form-group">
+          <label>GitHub URL</label>
+          <input
+            name="github"
+            value={formData.github}
+            onChange={handleChange}
+            disabled={!isEditing}
+          />
+        </div>
+        <div className="form-group">
+          <label>Skills (comma-separated)</label>
+          <input
+            name="skills"
+            value={formData.skills}
+            onChange={handleChange}
+            disabled={!isEditing}
+          />
+        </div>
+        <div className="form-group">
+          <label>Interests (comma-separated)</label>
+          <input
+            name="interests"
+            value={formData.interests}
+            onChange={handleChange}
+            disabled={!isEditing}
+          />
+        </div>
+
+        {isEditing ? (
+          <>
+            <button type="submit">Save Changes</button>
             <button type="button" onClick={handleEditToggle}>
-              Edit Profile
+              Cancel
             </button>
-          )}
-        </form>
+          </>
+        ) : (
+          <button type="button" onClick={handleEditToggle}>
+            Edit Profile
+          </button>
+        )}
+        {error && <p className="error-message">{error}</p>}
+      </form>
+
+      {/* TEAMS */}
+      <div className="profile-section">
+        <h3>Teams</h3>
+        {user.teams && user.teams.length > 0 ? (
+          <ul className="list">
+            {user.teams.map((team) => (
+              <li key={team._id}>
+                <Link to={`/team/${team.slug}`}>{team.name}</Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No team joined yet.</p>
+        )}
+      </div>
+
+      {/* FRIENDS */}
+      <div className="profile-section">
+        <h3>Friends</h3>
+        {user.friends && user.friends.length > 0 ? (
+          <ul className="list">
+            {user.friends.map((friend) => (
+              <li key={friend._id}>
+                <Link to={`/profile/${friend.slug}`}>{friend.name}</Link> -{" "}
+                {friend.email}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No friends added yet.</p>
+        )}
       </div>
     </div>
   );

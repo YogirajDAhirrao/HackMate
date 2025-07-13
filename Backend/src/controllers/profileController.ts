@@ -23,7 +23,8 @@ export const getProfile = async (
 
     const user = await User.findById(userId)
       .select("-password")
-      .populate("friends", "name email github slug"); // ✅ Populating friends with selected fields
+      .populate("friends", "name email github slug") // ✅ Populating friends with selected fields
+      .populate("teams", "name slug");
 
     if (!user) {
       res.status(404).json({ success: false, message: "User not found" });
