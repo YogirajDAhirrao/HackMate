@@ -12,7 +12,7 @@ import teamInviteRouter from "./routes/teamInvite.routes.js";
 dotenv.config();
 const app = express();
 app.use(cors({
-    origin: "https://hackmate-io.vercel.app/",
+    origin: "https://hackmate-io.vercel.app",
     credentials: true,
 }));
 app.use(express.json());
