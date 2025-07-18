@@ -29,7 +29,7 @@ export const signup: RequestHandler = async (
       skills,
       bio,
       github,
-      slug
+      slug,
     });
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
@@ -74,7 +74,7 @@ export const login: RequestHandler = async (
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "none",
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       path: "/",
     });

@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 // Get logged-in user's profile
 export const getProfile = async () => {
@@ -9,7 +9,6 @@ export const getProfile = async () => {
   if (!res.ok) {
     throw new Error("Not authenticated");
   }
-
   return res.json(); // returns user object
 };
 
