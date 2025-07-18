@@ -9,6 +9,7 @@ export const sendTokenCookie = (res, token) => {
     res.cookie("token", token, {
         httpOnly: true,
         secure: IS_PRODUCTION,
+        sameSite: "none",
         expires: new Date(Date.now() + COOKIE_EXPIRES_IN),
     });
 };

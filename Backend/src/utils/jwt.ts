@@ -21,6 +21,7 @@ export const sendTokenCookie = (res: Response, token: string): void => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: IS_PRODUCTION,
+    sameSite: "none",
     expires: new Date(Date.now() + COOKIE_EXPIRES_IN),
   });
 };
