@@ -18,7 +18,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://hackmate-io.vercel.app/",
+    origin: "https://hackmate-io.vercel.app",
     credentials: true,
   })
 );
