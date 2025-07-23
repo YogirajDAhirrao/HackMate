@@ -1,3 +1,10 @@
+import Card from "./Card";
+import HackathonList from "./HackathonList";
+import RequestsPreview from "./RequestsPreview";
+import "./AuthenticatedHome.css";
+
+import { Link } from "react-router-dom";
+
 function AuthenticatedHome({ user }) {
   return (
     <div className="homepage-container">
