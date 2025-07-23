@@ -6,6 +6,7 @@ import "./AuthenticatedHome.css";
 import { Link } from "react-router-dom";
 
 function AuthenticatedHome({ user }) {
+  if (!user) return <div>Loading...</div>;
   return (
     <div className="homepage-container">
       <h1 className="welcome">Welcome, {user.name}</h1>
