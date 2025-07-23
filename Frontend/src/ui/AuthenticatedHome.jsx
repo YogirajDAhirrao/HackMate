@@ -27,3 +27,4 @@ function AuthenticatedHome({ user }) {
     </div>
   );
 }
+export default AuthenticatedHome;
