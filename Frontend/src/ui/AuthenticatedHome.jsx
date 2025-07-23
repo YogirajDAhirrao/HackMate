@@ -1,8 +1,4 @@
 function AuthenticatedHome({ user }) {
-  if (!user) {
-    return <div className="loading">Loading your profile...</div>; // You can use a spinner here too
-  }
-
   return (
     <div className="homepage-container">
       <h1 className="welcome">Welcome, {user.name}</h1>
