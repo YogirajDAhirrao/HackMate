@@ -5,12 +5,13 @@ import jwt from "jsonwebtoken";
 import slugify from "slugify";
 import { JWT_SECRET } from "../config/config.js";
 
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 // Utility function to set cookie consistently
 const setAuthCookie = (res: Response, token: string) => {
   res.cookie("token", token, {
     httpOnly: true,
-    sameSite: "none", // For cross-origin cookies
-    secure: true, // Required for SameSite=None
+    sameSite: IS_PRODUCTION ? "none" : "lax", // For cross-origin cookies
+    secure: IS_PRODUCTION, // Required for SameSite=None
     path: "/",
     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
   });
@@ -99,10 +100,10 @@ export const logout: RequestHandler = async (
   try {
     res.cookie("token", "", {
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
+      sameSite: IS_PRODUCTION ? "none" : "lax", // For cross-origin cookies
+      secure: IS_PRODUCTION, // Required for SameSite=None
       path: "/",
-      expires: new Date(0), // Immediately expire
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     });
 
     res.status(200).json({ message: "Logged out successfully" });
