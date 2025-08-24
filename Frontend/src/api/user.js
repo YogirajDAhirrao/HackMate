@@ -1,4 +1,7 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+const development = import.meta.env.DEV || import.meta.env.DEVELOPMENT;
+const BASE_URL = development
+  ? "http://localhost:5000"
+  : import.meta.env.VITE_API_URL;
 
 // Get logged-in user's profile
 export const getProfile = async () => {

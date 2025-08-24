@@ -10,6 +10,14 @@ const teamSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    // 🔹 New field to track all projects for this team
+    projects: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Project",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );

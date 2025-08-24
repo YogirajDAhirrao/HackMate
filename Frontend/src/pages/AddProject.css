@@ -1,0 +1,109 @@
+/* Container */
+.add-project-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #2a2a3c;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Title */
+.add-project-title {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+/* Form Layout */
+.add-project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Input & Textarea Fields */
+.input-field,
+.textarea-field,
+.select-field {
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: none;
+  background-color: #3a3a4c;
+  color: #fff;
+  font-size: 16px;
+  resize: none;
+  transition: 0.2s ease-in-out;
+}
+
+.input-field:focus,
+.textarea-field:focus,
+.select-field:focus {
+  outline: 2px solid #6c63ff;
+  background-color: #44445a;
+}
+
+/* Dropdown Styling */
+.select-field {
+  cursor: pointer;
+}
+
+/* Labels */
+.form-label {
+  font-size: 15px;
+  margin-bottom: 6px;
+  color: #e0e0e0;
+  font-weight: 500;
+}
+
+/* Submit Button */
+.add-project-btn {
+  background-color: #6c63ff;
+  color: #fff;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.25s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.add-project-btn:hover {
+  background-color: #5750e0;
+  transform: scale(1.02);
+}
+
+/* Error Message */
+.error-message {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: -10px;
+}
+
+/* Required Field Indicator */
+.required {
+  color: #ff6b6b;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .add-project-container {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .add-project-title {
+    font-size: 24px;
+  }
+
+  .add-project-btn {
+    font-size: 15px;
+    padding: 12px;
+  }
+}

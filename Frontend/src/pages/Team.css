@@ -1,90 +1,407 @@
 /* src/pages/Team.css */
 
+/* 🌌 Overall Page Styling */
 .team-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
-  min-height: 80vh;
-  background-color: #0f172a; /* dark background */
-  color: white;
+  padding: 3rem 1.5rem;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #f8fafc;
+  font-family: "Inter", sans-serif;
 }
 
+/* 🏷️ Main Heading */
 .team-page-container h2 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
+  font-weight: 700;
   margin-bottom: 0.5rem;
+  text-align: center;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.team-page-container p {
+/* 📄 Team Description */
+.team-page-container > p {
   font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+  color: #cbd5e1;
+  text-align: center;
+  max-width: 650px;
+  margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
+/* 📌 Section Headings */
 .team-page-container h3 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
+  font-size: 1.9rem;
+  font-weight: 600;
+  margin: 2.5rem 0 1.2rem;
+  text-align: center;
+  color: #f1f5f9;
+  border-bottom: 2px solid #334155;
+  padding-bottom: 0.5rem;
+  width: 100%;
+  max-width: 700px;
 }
 
-.friends-list {
+/* 📦 Projects List */
+.projects-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+/* 🪟 Project Card */
+.project-card {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.3rem 1.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+}
+
+.project-card h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #3b82f6;
+}
+
+.project-card p {
+  margin: 0.4rem 0;
+  font-size: 1rem;
+  color: #e2e8f0;
+}
+
+.project-card a {
+  color: #06b6d4;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.project-card a:hover {
+  color: #3b82f6;
+}
+
+/* ➕ Add Project Button */
+.add-project-button {
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.add-project-button:hover {
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(6, 182, 212, 0.3);
+}
+
+/* 📝 Project Form */
+.project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.project-form input,
+.project-form textarea {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.7rem;
+  border-radius: 8px;
+  color: #f8fafc;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.project-form input:focus,
+.project-form textarea:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+/* Project Form Buttons */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.submit-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s ease;
+}
+
+.submit-button:hover {
+  background: #2563eb;
+}
+
+.cancel-button {
+  background: #64748b;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s ease;
+}
+
+.cancel-button:hover {
+  background: #475569;
+}
+
+/* 👥 Friends & Members List */
+.friends-list,
+.members-list {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
   width: 100%;
   max-width: 700px;
+  padding: 0;
+  margin-bottom: 2rem;
 }
 
+/* 🪟 Friend Card with Glassmorphism */
 .friend-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #1e293b; /* card background */
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.2rem 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.friend-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
 }
 
 .friend-card p {
-  margin: 0.3rem 0;
+  margin: 0.2rem 0;
+  font-size: 1.05rem;
+  color: #e2e8f0;
 }
 
+/* 🚀 Invite Button */
 .invite-button {
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
+  padding: 0.55rem 1.3rem;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.25s ease-in-out;
 }
 
 .invite-button:hover:not(:disabled) {
-  background-color: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: scale(1.05);
+  box-shadow: 0 3px 12px rgba(59, 130, 246, 0.4);
 }
 
 .invite-button:disabled {
   background-color: #64748b;
   cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ❌ Remove Member Button */
+.remove-button {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.25s ease;
+}
+
+.remove-button:hover {
+  background: #dc2626;
+}
+
+/* 🔙 Navigation Buttons */
+.team-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.leave-button {
+  background: #f43f5e;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background 0.25s ease;
+}
+
+.leave-button:hover {
+  background: #e11d48;
 }
 
 .back-button {
-  margin-top: 2rem;
-  background-color: #3b82f6;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
   color: white;
   border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 6px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 1rem;
+  transition: all 0.25s ease-in-out;
 }
 
 .back-button:hover {
-  background-color: #2563eb;
-}
-.members-list {
-  padding-left: 1rem;
-  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
 }
 
-.member-item {
-  margin: 5px 0;
+/* 📱 Responsive Design */
+@media (max-width: 768px) {
+  .team-page-container h2 {
+    font-size: 2.2rem;
+  }
+
+  .team-page-container p {
+    font-size: 1rem;
+  }
+
+  .friend-card,
+  .project-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .invite-button,
+  .back-button,
+  .leave-button,
+  .add-project-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-page-container {
+    padding: 2rem 1rem;
+  }
+
+  .team-page-container h2 {
+    font-size: 1.9rem;
+  }
+
+  .project-card,
+  .friend-card {
+    padding: 1rem;
+  }
+}
+/* Base Button Styles */
+.invite-button,
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover Animation */
+.invite-button:hover:not(:disabled),
+.back-button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #60a5fa, #1d4ed8);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+}
+
+/* Click (Active) State */
+.invite-button:active,
+.back-button:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Disabled State */
+.invite-button:disabled {
+  background: #64748b;
+  color: #cbd5e1;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Special Styling for Back Button */
+.back-button {
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.back-button:hover {
+  background: linear-gradient(135deg, #34d399, #047857);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.6);
 }

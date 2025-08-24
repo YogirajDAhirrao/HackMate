@@ -13,6 +13,7 @@ import Requests from "./pages/Requests";
 import TeamInfo from "./pages/TeamInfo";
 import CreateTeam from "./pages/CreateTeam";
 import Team from "./pages/Team";
+import AddProject from "./pages/AddProject";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/profile/:slug" element={<UserProfile />} />
           </Route>
           <Route path="/team" element={<Team />} />
+          <Route path="/team/:teamId/add-project" element={<AddProject />} />
           <Route path="/my-team" element={<TeamInfo />} />
           <Route path="/requests" element={<Requests />} />
         </Route>

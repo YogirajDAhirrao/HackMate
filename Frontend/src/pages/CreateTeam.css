@@ -1,63 +1,142 @@
 .create-team-container {
-  max-width: 500px;
+  max-width: 520px;
   margin: 40px auto;
   padding: 30px;
-  background-color: #2a2a3c;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #1f1f2e;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   color: #fff;
+  font-family: "Inter", sans-serif;
 }
 
 .create-team-title {
   text-align: center;
   margin-bottom: 25px;
   font-size: 28px;
+  font-weight: 600;
   color: #ffffff;
 }
 
+/* Form Layout */
 .create-team-form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 18px;
 }
 
+/* Labels */
+.create-team-form label {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  display: block;
+  color: #e0e0e0;
+}
+
+/* Input + Textarea */
 .input-field,
 .textarea-field {
-  padding: 10px 12px;
-  border-radius: 5px;
+  padding: 12px 14px;
+  border-radius: 8px;
   border: none;
-  background-color: #3a3a4c;
+  background-color: #2b2b3d;
   color: #fff;
-  font-size: 16px;
-  resize: none;
+  font-size: 15px;
+  width: 100%;
+  transition: 0.2s ease;
+  box-sizing: border-box;
+}
+
+.textarea-field {
+  resize: vertical;
+  min-height: 90px;
 }
 
 .input-field:focus,
 .textarea-field:focus {
   outline: 2px solid #6c63ff;
+  background-color: #32324a;
 }
 
+/* Checkbox toggle */
+.add-project-toggle {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.add-project-toggle input {
+  accent-color: #6c63ff;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Collapsible Project Fields */
+.project-fields-wrapper {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all 0.35s ease-in-out;
+}
+
+.project-fields-wrapper.expanded {
+  max-height: 800px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-fields {
+  margin-top: 10px;
+  padding: 18px;
+  background-color: #2b2b3d;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.project-title {
+  font-size: 18px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Error Messages */
+.error-message {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin-top: -5px;
+}
+
+/* Required Fields */
+.required {
+  color: #ff6b6b;
+}
+
+/* Submit Button */
 .create-team-btn {
   background-color: #6c63ff;
   color: #fff;
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.25s ease-in-out;
 }
 
 .create-team-btn:hover {
   background-color: #5750e0;
 }
 
-.error-message {
-  color: #ff6b6b;
-  font-size: 14px;
-  margin-top: -10px;
-}
-
-.required {
-  color: #ff6b6b;
+.create-team-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

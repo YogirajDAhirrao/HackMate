@@ -1,4 +1,7 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+const development = import.meta.env.DEV || import.meta.env.DEVELOPMENT;
+const BASE_URL = development
+  ? "http://localhost:5000"
+  : import.meta.env.VITE_API_URL;
 
 export const getMyTeam = async () => {
   const response = await fetch(`${BASE_URL}/team/me`, {
@@ -15,6 +18,25 @@ export const getMyTeam = async () => {
 
   const data = await response.json();
   return data.teams;
+};
+
+export const addProjectToTeam = async (teamId, projectData) => {
+  const response = await fetch(`${BASE_URL}/team/${teamId}/projects`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(projectData),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Failed to add project");
+  }
+
+  return data.project; // assuming backend returns { project: {...} }
 };
 
 export const leaveTeam = async (id) => {
