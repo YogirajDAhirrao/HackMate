@@ -1,188 +1,188 @@
-/* src/pages/Team.css */
-
 /* 🌌 Overall Page Styling */
 .team-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 3rem 1.5rem;
+  padding: 3.5rem 2rem;
   min-height: 100vh;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: #f8fafc;
+  background: linear-gradient(135deg, #0d1b2a, #1a2e44);
+  color: #f9fafb;
   font-family: "Inter", sans-serif;
 }
 
 /* 🏷️ Main Heading */
 .team-page-container h2 {
-  font-size: 2.8rem;
+  font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   text-align: center;
-  background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  background: linear-gradient(90deg, #60a5fa, #34d399);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 /* 📄 Team Description */
 .team-page-container > p {
-  font-size: 1.1rem;
-  color: #cbd5e1;
+  font-size: 1.2rem;
+  color: #d1d5db;
   text-align: center;
-  max-width: 650px;
-  margin-bottom: 2rem;
-  line-height: 1.6;
+  max-width: 700px;
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
 }
 
 /* 📌 Section Headings */
 .team-page-container h3 {
-  font-size: 1.9rem;
+  font-size: 2rem;
   font-weight: 600;
-  margin: 2.5rem 0 1.2rem;
+  margin: 3rem 0 1.5rem;
   text-align: center;
-  color: #f1f5f9;
-  border-bottom: 2px solid #334155;
-  padding-bottom: 0.5rem;
+  color: #f3f4f6;
+  border-bottom: 3px solid #2a3b4c;
+  padding-bottom: 0.75rem;
   width: 100%;
-  max-width: 700px;
+  max-width: 750px;
 }
 
 /* 📦 Projects List */
 .projects-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
   width: 100%;
-  max-width: 900px;
-  margin-bottom: 2rem;
+  max-width: 950px;
+  margin-bottom: 2.5rem;
   padding: 0;
 }
 
 /* 🪟 Project Card */
 .project-card {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  padding: 1.3rem 1.5rem;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 1.5rem 1.8rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .project-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
 }
 
 .project-card h4 {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #3b82f6;
+  margin-bottom: 0.75rem;
+  color: #60a5fa;
 }
 
 .project-card p {
-  margin: 0.4rem 0;
-  font-size: 1rem;
-  color: #e2e8f0;
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  color: #e5e7eb;
 }
 
 .project-card a {
-  color: #06b6d4;
+  color: #34d399;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: color 0.25s ease;
 }
 
 .project-card a:hover {
-  color: #3b82f6;
+  color: #10b981;
 }
 
 /* ➕ Add Project Button */
 .add-project-button {
-  margin-top: 1rem;
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  margin-top: 1.5rem;
+  background: linear-gradient(135deg, #60a5fa, #34d399);
   color: white;
   border: none;
-  padding: 0.8rem 1.6rem;
-  border-radius: 10px;
+  padding: 0.9rem 1.8rem;
+  border-radius: 12px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem;
-  transition: all 0.3s ease-in-out;
+  font-size: 1.1rem;
+  transition: all 0.35s ease-in-out;
 }
 
 .add-project-button:hover {
-  background: linear-gradient(135deg, #2563eb, #0ea5e9);
-  transform: translateY(-2px);
-  box-shadow: 0 5px 16px rgba(6, 182, 212, 0.3);
+  background: linear-gradient(135deg, #3b82f6, #16a34a);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(52, 211, 153, 0.4);
 }
 
 /* 📝 Project Form */
 .project-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
   width: 100%;
-  max-width: 600px;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 1.5rem;
-  border-radius: 14px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  max-width: 650px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 .project-form input,
 .project-form textarea {
-  background: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 0.7rem;
-  border-radius: 8px;
-  color: #f8fafc;
-  font-size: 1rem;
-  transition: border-color 0.2s ease;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.8rem;
+  border-radius: 10px;
+  color: #f9fafb;
+  font-size: 1.1rem;
+  transition: border-color 0.25s ease;
 }
 
 .project-form input:focus,
 .project-form textarea:focus {
-  border-color: #3b82f6;
+  border-color: #60a5fa;
   outline: none;
+  box-shadow: 0 0 8px rgba(96, 165, 250, 0.4);
 }
 
 /* Project Form Buttons */
 .form-buttons {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.2rem;
 }
 
 .submit-button {
-  background: #3b82f6;
+  background: #60a5fa;
   color: white;
   border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.7rem;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.25s ease;
+  transition: background 0.3s ease;
 }
 
 .submit-button:hover {
-  background: #2563eb;
+  background: #3b82f6;
 }
 
 .cancel-button {
-  background: #64748b;
+  background: #6b7280;
   color: white;
   border: none;
-  padding: 0.7rem 1.5rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.7rem;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.25s ease;
+  transition: background 0.3s ease;
 }
 
 .cancel-button:hover {
-  background: #475569;
+  background: #4b5563;
 }
 
 /* 👥 Friends & Members List */
@@ -190,11 +190,11 @@
 .members-list {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.5rem;
   width: 100%;
-  max-width: 700px;
+  max-width: 750px;
   padding: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
 }
 
 /* 🪟 Friend Card with Glassmorphism */
@@ -202,85 +202,85 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.2rem 1.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 1.5rem 1.8rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .friend-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
 }
 
 .friend-card p {
-  margin: 0.2rem 0;
-  font-size: 1.05rem;
-  color: #e2e8f0;
+  margin: 0.3rem 0;
+  font-size: 1.1rem;
+  color: #e5e7eb;
 }
 
 /* 🚀 Invite Button */
 .invite-button {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
   color: white;
   border: none;
-  padding: 0.55rem 1.3rem;
-  border-radius: 8px;
+  padding: 0.6rem 1.5rem;
+  border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.25s ease-in-out;
+  font-size: 1rem;
+  transition: all 0.3s ease-in-out;
 }
 
 .invite-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, #3b82f6, #1e40af);
   transform: scale(1.05);
-  box-shadow: 0 3px 12px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.5);
 }
 
 .invite-button:disabled {
-  background-color: #64748b;
+  background-color: #6b7280;
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* ❌ Remove Member Button */
 .remove-button {
-  background: #ef4444;
+  background: #f87171;
   color: white;
   border: none;
-  padding: 0.4rem 1rem;
-  border-radius: 6px;
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 0.9rem;
-  transition: background 0.25s ease;
+  font-size: 1rem;
+  transition: background 0.3s ease;
 }
 
 .remove-button:hover {
-  background: #dc2626;
+  background: #ef4444;
 }
 
 /* 🔙 Navigation Buttons */
 .team-buttons {
   display: flex;
-  gap: 1rem;
-  margin-top: 2.5rem;
+  gap: 1.5rem;
+  margin-top: 3rem;
 }
 
 .leave-button {
   background: #f43f5e;
   color: white;
   border: none;
-  padding: 0.7rem 1.6rem;
-  border-radius: 10px;
+  padding: 0.9rem 1.8rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: background 0.25s ease;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: background 0.3s ease;
 }
 
 .leave-button:hover {
@@ -288,38 +288,38 @@
 }
 
 .back-button {
-  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  background: linear-gradient(135deg, #10b981, #065f46);
   color: white;
   border: none;
-  padding: 0.8rem 1.8rem;
-  border-radius: 10px;
+  padding: 0.9rem 1.8rem;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 1rem;
-  transition: all 0.25s ease-in-out;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.35s ease-in-out;
 }
 
 .back-button:hover {
-  background: linear-gradient(135deg, #2563eb, #0ea5e9);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+  background: linear-gradient(135deg, #34d399, #047857);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
 }
 
 /* 📱 Responsive Design */
 @media (max-width: 768px) {
-  .team-page-container h2 {
-    font-size: 2.2rem;
+  .team-page-container {
+    padding: 2.5rem 1.5rem;
   }
 
-  .team-page-container p {
-    font-size: 1rem;
+  .team-page-container h2 {
+    font-size: 2.5rem;
   }
 
   .friend-card,
   .project-card {
     flex-direction: column;
     align-items: flex-start;
-    gap: 0.8rem;
+    gap: 1rem;
   }
 
   .invite-button,
@@ -341,67 +341,61 @@
   }
 
   .team-page-container h2 {
-    font-size: 1.9rem;
+    font-size: 2rem;
   }
 
   .project-card,
   .friend-card {
-    padding: 1rem;
+    padding: 1.2rem;
   }
 }
+
 /* Base Button Styles */
 .invite-button,
 .back-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.7rem 1.5rem;
+  gap: 0.5rem;
+  padding: 0.8rem 1.6rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
   color: #fff;
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  box-shadow: 0 5px 15px rgba(96, 165, 250, 0.4);
+  transition: all 0.35s ease;
 }
 
-/* Hover Animation */
 .invite-button:hover:not(:disabled),
 .back-button:hover {
   transform: scale(1.05);
-  background: linear-gradient(135deg, #60a5fa, #1d4ed8);
-  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+  background: linear-gradient(135deg, #93c5fd, #1e40af);
+  box-shadow: 0 7px 20px rgba(96, 165, 250, 0.6);
 }
 
-/* Click (Active) State */
 .invite-button:active,
 .back-button:active {
-  transform: scale(0.97);
-  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+  transform: scale(0.98);
+  box-shadow: 0 3px 10px rgba(96, 165, 250, 0.3);
 }
 
-/* Disabled State */
 .invite-button:disabled {
-  background: #64748b;
-  color: #cbd5e1;
+  background: #6b7280;
+  color: #d1d5db;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
 }
 
-/* Special Styling for Back Button */
 .back-button {
-  margin-top: 2rem;
-  background: linear-gradient(135deg, #10b981, #059669);
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(135deg, #10b981, #065f46);
+  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
 }
 
 .back-button:hover {
   background: linear-gradient(135deg, #34d399, #047857);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.6);
+  box-shadow: 0 7px 20px rgba(16, 185, 129, 0.6);
 }

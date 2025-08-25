@@ -21,7 +21,7 @@ export const getMyTeam = async () => {
 };
 
 export const addProjectToTeam = async (teamId, projectData) => {
-  const response = await fetch(`${BASE_URL}/team/${teamId}/projects`, {
+  const response = await fetch(`${BASE_URL}/add-project/${teamId}`, {
     method: "POST",
     credentials: "include",
     headers: {

@@ -157,7 +157,7 @@ function Team() {
       <section className="projects-section">
         <div className="section-header">
           <h3>Projects</h3>
-          {isAdmin && !showProjectForm && (
+          {isAdmin && (
             <button
               className="primary-button"
               onClick={() => setShowProjectForm(true)}
