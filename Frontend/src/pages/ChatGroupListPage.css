@@ -1,0 +1,101 @@
+/* Container */
+.chat-groups-container {
+  padding: 2rem;
+  min-height: 100vh;
+  background: #0b0f19; /* Deep dark background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Heading */
+.heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* No Teams Text */
+.no-groups {
+  color: #9ca3af;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Grid Layout */
+.chat-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+/* Team Card */
+.chat-group-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hover Animation */
+.chat-group-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+/* Group Title */
+.chat-group-card h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: #ffffff;
+  transition: color 0.2s ease-in-out;
+}
+
+/* Description */
+.chat-group-card p {
+  font-size: 0.95rem;
+  color: #d1d5db;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+/* Members Count */
+.chat-group-card span {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* Loading State */
+.loading {
+  font-size: 1.2rem;
+  color: #38bdf8;
+  margin-top: 2rem;
+}
+
+/* Responsive Fix */
+@media (max-width: 768px) {
+  .heading {
+    font-size: 1.7rem;
+  }
+
+  .chat-group-card {
+    padding: 1.2rem;
+  }
+}

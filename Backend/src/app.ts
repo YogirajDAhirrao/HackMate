@@ -11,20 +11,21 @@ import usersRouter from "./routes/users.routes.js";
 import friendRequestRouter from "./routes/friendRequests.routes.js";
 import teamInviteRouter from "./routes/teamInvite.routes.js";
 import projectRouter from "./routes/project.routes.js";
+import chatRouter from "./routes/chat.routes.js";
+
 dotenv.config();
 
 const app = express();
 
 // ✅ Allow both local dev and production frontend
 const allowedOrigins = [
-  "http://localhost:5173", // Local Vite frontend
-  "https://hackmate-io.vercel.app", // Deployed frontend
+  "http://localhost:5173",
+  "https://hackmate-io.vercel.app",
 ];
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow requests with no origin, like mobile apps or curl
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -46,6 +47,7 @@ app.use("/auth", authRouter);
 
 // Protected Routes
 app.use(verifyJWT);
+app.use("/chat", chatRouter);
 app.use("/profile", profileRouter);
 app.use("/users", usersRouter);
 app.use("/team", teamRouter);

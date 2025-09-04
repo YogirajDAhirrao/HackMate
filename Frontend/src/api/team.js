@@ -143,3 +143,19 @@ export const getOutgoingTeamInvites = async () => {
   const data = await res.json();
   return data.outgoingTeamInvites; // returns array of invites
 };
+
+export const fetchMessages = async (teamId) => {
+  const res = await fetch(`${BASE_URL}/chat/${teamId}`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch messages");
+  }
+
+  return res.json(); // ✅ Return chat data
+};

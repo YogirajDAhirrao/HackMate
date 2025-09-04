@@ -14,6 +14,8 @@ import TeamInfo from "./pages/TeamInfo";
 import CreateTeam from "./pages/CreateTeam";
 import Team from "./pages/Team";
 import AddProject from "./pages/AddProject";
+import ChatGroupListPage from "./pages/ChatGroupListPage";
+import TeamChat from "./pages/TeamChat";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/team/:teamId/add-project" element={<AddProject />} />
           <Route path="/my-team" element={<TeamInfo />} />
+          <Route path="/my-groups" element={<ChatGroupListPage />} />
+          <Route path="/chat/:teamId" element={<TeamChat />} />
           <Route path="/requests" element={<Requests />} />
         </Route>
       </Routes>

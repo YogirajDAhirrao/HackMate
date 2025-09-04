@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
 import Team from "../model/team.model.js";
 import User from "../model/user.model.js";
+import Project from "../model/project.model.js";
 import TeamInvite from "../model/teamInvite.model.js";
 export const createTeam = async (req, res) => {
     const userId = req.userId;
-    const { name, description } = req.body;
+    const { name, description, project } = req.body;
     if (!name?.trim()) {
         res.status(400).json({ message: "Team name is required" });
         return;
@@ -15,17 +16,43 @@ export const createTeam = async (req, res) => {
             res.status(404).json({ message: "User not found" });
             return;
         }
+        // Create team
         const newTeam = await Team.create({
             name,
             description,
             admin: userId,
             members: [userId],
         });
+        // Only create project if explicitly provided
+        if (project && project.title && project.description) {
+            if (!project.techStack || project.techStack.length === 0) {
+                res
+                    .status(400)
+                    .json({ message: "Tech stack is required when adding a project." });
+                return;
+            }
+            const newProject = await Project.create({
+                title: project.title,
+                description: project.description,
+                techStack: Array.isArray(project.techStack)
+                    ? project.techStack
+                    : project.techStack.split(",").map((t) => t.trim()),
+                githubRepo: project.githubRepo || "",
+                liveDemo: project.liveDemo || "",
+                team: newTeam._id,
+                createdBy: userId,
+            });
+            newTeam.projects.push(newProject._id);
+            await newTeam.save();
+        }
+        // Save team to user
         user.teams.push(newTeam._id);
         await user.save();
+        // Populate team details
         const fullTeam = await Team.findById(newTeam._id)
             .populate("admin", "name email slug")
-            .populate("members", "name email github slug");
+            .populate("members", "name email github slug")
+            .populate("projects");
         res
             .status(201)
             .json({ message: "Team created successfully", team: fullTeam });
@@ -44,7 +71,8 @@ export const getMyTeams = async (req, res) => {
         }
         const teams = await Team.find({ members: userId })
             .populate("members", "name email github slug")
-            .populate("admin", "name email slug");
+            .populate("admin", "name email slug")
+            .populate("projects", "title description techStack githubRepo liveDemo team");
         res.status(200).json({ teams });
     }
     catch (error) {
@@ -159,7 +187,9 @@ export const leaveTeam = async (req, res, next) => {
         }
         const team = await Team.findById(teamId);
         if (!team || !team.members.some((id) => id.equals(userId))) {
-            res.status(404).json({ message: "Team not found or you are not a member" });
+            res
+                .status(404)
+                .json({ message: "Team not found or you are not a member" });
             return;
         }
         const teamIdStr = team._id.toString();

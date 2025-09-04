@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
-import { login } from "../api/user";
+import { getProfile, login } from "../api/user";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
@@ -20,9 +20,12 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const user = await login(credentials); // returns user object
-      console.log("Logged in as:", user);
-      setUser(user);
+      await login(credentials);
+      console.log("Logged in");
+      const res = await getProfile();
+
+      setUser(res.user);
+
       navigate("/"); // redirect to homepage
     } catch (err) {
       alert(err.message || "Login failed");
