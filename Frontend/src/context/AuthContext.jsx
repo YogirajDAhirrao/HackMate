@@ -1,6 +1,10 @@
 // src/context/AuthContext.js
 import { createContext, useContext, useEffect, useState } from "react";
 import { getProfile } from "../api/user";
+const development = import.meta.env.DEV || import.meta.env.DEVELOPMENT;
+const BASE_URL = development
+  ? "http://localhost:5000"
+  : import.meta.env.VITE_API_URL;
 
 const AuthContext = createContext();
 
@@ -27,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       // Call the backend logout endpoint to clear the HTTP-only cookie
-      const response = await fetch("/auth/logout", {
+      const response = await fetch(`${BASE_URL}/auth/logout`, {
         method: "POST",
         credentials: "include", // Include cookies in the request
       });
