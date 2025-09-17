@@ -98,12 +98,11 @@ export const logout: RequestHandler = async (
   res: Response
 ): Promise<void> => {
   try {
-    res.cookie("token", "", {
+    res.clearCookie("token", {
       httpOnly: true,
-      sameSite: IS_PRODUCTION ? "none" : "lax", // For cross-origin cookies
-      secure: IS_PRODUCTION, // Required for SameSite=None
+      sameSite: IS_PRODUCTION ? "none" : "lax",
+      secure: IS_PRODUCTION,
       path: "/",
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
     });
 
     res.status(200).json({ message: "Logged out successfully" });
