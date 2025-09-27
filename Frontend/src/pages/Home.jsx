@@ -5,7 +5,15 @@ import "./Home.css";
 
 function Home() {
   const { user, loading } = useAuth();
-  if (loading) return <div>LOADING...</div>;
+
+  if (loading)
+    return (
+      <div className="spinner-container">
+        <div className="spinner"></div>
+        <p className="loading-text">Spinning up the backend…</p>
+      </div>
+    );
+
   return (
     <>{user ? <AuthenticatedHome user={user} /> : <UnauthenticatedHome />}</>
   );
