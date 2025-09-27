@@ -24,13 +24,13 @@ const NavBar = () => {
           </li>
         </ul>
         <div className="nav-actions">
-          <button className="search-btn">🔍</button>
+          
           {user ? (
             <ProfileSection />
           ) : (
             <>
               <Link to="/login" className="btn btn-purple">
-                Sign In
+                Log In
               </Link>
               <Link to="/signup" className="btn btn-dark">
                 Sign Up
