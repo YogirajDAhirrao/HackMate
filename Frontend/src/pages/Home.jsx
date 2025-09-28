@@ -7,18 +7,26 @@ import "./Home.css";
 function Home() {
   const { user, loading } = useAuth();
   const [showBackendMessage, setShowBackendMessage] = useState(false);
+  const [extraMessage, setExtraMessage] = useState(false);
 
   useEffect(() => {
     let timer;
+    let nextTimer;
     if (loading) {
       // after 3 seconds, show "Spinning up backend…" instead of just loading
       timer = setTimeout(() => {
         setShowBackendMessage(true);
       }, 3000);
+      nextTimer = setTimeout(() => {
+        setExtraMessage(true);
+      });
     } else {
       setShowBackendMessage(false); // reset when not loading
     }
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(nextTimer);
+    };
   }, [loading]);
 
   if (loading)
@@ -27,6 +35,7 @@ function Home() {
         <div className="spinner"></div>
         <p className="loading-text">
           {showBackendMessage ? "Spinning up the backend…" : "Loading…"}
+          {extraMessage ? "Almost there !!" : " "}
         </p>
       </div>
     );
