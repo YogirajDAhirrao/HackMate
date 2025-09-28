@@ -21,6 +21,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://hackmate-io.vercel.app",
+  "https://hackmate1.vercel.app",
 ];
 
 app.use(
