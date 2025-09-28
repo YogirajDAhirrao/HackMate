@@ -20,7 +20,6 @@ const app = express();
 // ✅ Allow both local dev and production frontend
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://hackmate-io.vercel.app",
   "https://hackmate1.vercel.app",
 ];
 
