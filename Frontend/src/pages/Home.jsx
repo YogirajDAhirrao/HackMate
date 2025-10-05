@@ -19,7 +19,7 @@ function Home() {
       }, 3000);
       nextTimer = setTimeout(() => {
         setExtraMessage(true);
-      },6000);
+      }, 9000);
     } else {
       setShowBackendMessage(false); // reset when not loading
     }
