@@ -17,30 +17,32 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Allow both local dev and production frontend
+// ✅ Allowed origins
 const allowedOrigins = [
   "http://localhost:5173",
   "https://hackmate1.vercel.app",
 ];
 
+// ✅ CORS setup
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // allow non-browser tools like Postman
+    // allow Postman or server-to-server requests with no origin
+    if (!origin) return callback(null, true);
+
     if (allowedOrigins.includes(origin)) {
-      callback(null, true);
+      // must return the origin string for credentials: true
+      return callback(null, origin);
     } else {
       console.warn(`❌ CORS blocked: ${origin}`);
-      callback(new Error("Not allowed by CORS"));
+      return callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true,
+  credentials: true, // allows cookies
 };
 
-// Apply once
+// Apply CORS for all routes & preflights
 app.use(cors(corsOptions));
-
-// Apply for preflights too
-app.options(/.*/, cors(corsOptions));
+app.options("*", cors(corsOptions)); // preflight
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
