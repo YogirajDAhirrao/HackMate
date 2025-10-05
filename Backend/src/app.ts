@@ -23,35 +23,33 @@ const allowedOrigins = [
   "https://hackmate1.vercel.app",
 ];
 
-// ✅ CORS setup
+// ✅ Robust CORS configuration
 const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
-    // allow Postman or server-to-server requests with no origin
+    // Allow Postman or server-to-server requests with no Origin
     if (!origin) return callback(null, true);
 
     if (allowedOrigins.includes(origin)) {
-      // must return the origin string for credentials: true
+      // Must return the origin string when using credentials: true
       return callback(null, origin);
     } else {
       console.warn(`❌ CORS blocked: ${origin}`);
       return callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // allows cookies
+  credentials: true, // Required for cookies
 };
 
-// Apply CORS for all routes & preflights
+// ✅ Apply CORS globally (includes preflights)
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions)); // preflight
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Public Routes
+// ✅ Public routes
 app.use("/auth", authRouter);
 
-// Protected Routes
+// ✅ Protected routes (requires JWT)
 app.use(verifyJWT);
 app.use("/chat", chatRouter);
 app.use("/profile", profileRouter);
@@ -61,8 +59,9 @@ app.use("/friend-request", friendRequestRouter);
 app.use("/team-invite", teamInviteRouter);
 app.use("/add-project", projectRouter);
 
+// ✅ Health check route
 app.get("/", (req, res) => {
-  res.send("Hackmate API is running 🚀");
+  res.send("HackMate API is running 🚀");
 });
 
 export default app;
