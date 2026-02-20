@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import Message from "../model/messages.model.js";
 
 let io: Server;
+//Attaches socket.io to Express HTTP server.
 
 export const initSocket = (server: http.Server) => {
   io = new Server(server, {
@@ -16,15 +17,16 @@ export const initSocket = (server: http.Server) => {
       credentials: true,
     },
   });
-
+// io is socket.io server instance and socket represents a single client
   io.on("connection", (socket) => {
     console.log(`⚡ User connected: ${socket.id}`);
 
     // ✅ Join room
+    // join this client
     socket.on("join_room", ({ teamId, userName }) => {
       socket.join(teamId);
       console.log(`👥 ${userName} joined room: ${teamId}`);
-
+      // since we need to send the message to the team(not just one), send it using io
       io.to(teamId).emit("receive_message", {
         user: "System",
         message: `${userName} joined the chat`,
@@ -33,6 +35,7 @@ export const initSocket = (server: http.Server) => {
     });
 
     // ✅ Leave room
+    // on this, leave the this
     socket.on("leave_room", ({ teamId, userName }) => {
       socket.leave(teamId);
       console.log(`🚪 ${userName} left room: ${teamId}`);

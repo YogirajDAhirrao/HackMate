@@ -10,7 +10,7 @@ function TeamChat() {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
-  // ✅ Fetch old messages from DB
+  //  Fetch old messages from DB
   useEffect(() => {
     const fetchChatHistory = async () => {
       try {
@@ -23,7 +23,7 @@ function TeamChat() {
     fetchChatHistory();
   }, [teamId]);
 
-  // ✅ Join socket room & listen for messages
+  //  Join socket room & listen for messages
   useEffect(() => {
     if (!socket.connected) socket.connect();
 
@@ -39,7 +39,7 @@ function TeamChat() {
     };
   }, [teamId, user.name]);
 
-  // ✅ Send message
+  //  Send message
   const sendMessage = () => {
     if (message.trim()) {
       socket.emit("send_message", {
